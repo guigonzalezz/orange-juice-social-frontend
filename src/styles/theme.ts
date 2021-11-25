@@ -2,6 +2,13 @@ import { extendTheme } from '@chakra-ui/react'
 
 export const theme = extendTheme({
   colors: {
+    myColors: {
+      "700": "#080001",
+      "600": "#282828",
+      "500": "#6C6C6C",
+      "gradient-login": "linear-gradient(#FECE00, #F96400)",
+      "fcamara":"#F96400"
+    },
     gray: {
       "900": "#181B23",
       "800": "#1F2029",
@@ -22,7 +29,7 @@ export const theme = extendTheme({
   styles: {
     global: {
       body: {
-        bg: 'gray.900',
+        bg: 'myColors.700',
         color: 'gray.50'
       }
     }
