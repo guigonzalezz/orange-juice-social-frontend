@@ -1,8 +1,10 @@
-import { Flex, Stack, Button, Image, Grid, GridItem, SimpleGrid, Box,Text   } from '@chakra-ui/react'
+import { Flex, Stack, Button, Image, Text, Box } from '@chakra-ui/react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver  } from '@hookform/resolvers/yup/dist/yup'
 import { Input } from '../components/Form/Input'
+import { useContext } from 'react';
+import { AuthContext } from '../contexts/AuthContext'
 
 type SignInFormData = {
   email: string;
@@ -20,11 +22,13 @@ export default function SigniIn() {
     resolver: yupResolver(signInFormSchema)
   })
   const { errors } = formState;
+  const { signIn } = useContext(AuthContext)
 
   const handleSignIn: SubmitHandler<SignInFormData> = async (values) => {
-    await new Promise(resolve => setTimeout(resolve, 2000));
-
-    console.log(values)
+    const possiblMessage = await signIn({
+      email: values.email,
+      senha: values.password
+    })
   }
 
 
@@ -37,16 +41,18 @@ export default function SigniIn() {
       flexDir="column"
     >
       <Image mt="-30px" boxSize="350px" objectFit="contain" src="logo_slash_gradiente.png" alt="Orange Juice Social Logo"/>
+
       <Flex
             as='form'
             w="100%"
             h={500}
             mt="-20px"
             maxWidth={360}
+            minHeight={500}
             bg="myColors.700"
-            p="8"
             borderRadius={4}
             flexDir="column"
+            p="8"
             onSubmit={handleSubmit(handleSignIn)}
             _before={{
               content: `""`,
@@ -78,11 +84,17 @@ export default function SigniIn() {
               />
 
             </Stack>
-
-            <Button type="submit" mt="6" colorScheme="orange" size="lg" bgGradient="linear(to-r, red.500, yellow.500)" isLoading={formState.isSubmitting}>Entrar</Button>
-          </Flex>
+            <Button type="submit" mt="6"  colorScheme="orange" size="lg" bgGradient="linear(to-r, red.500, yellow.500)" isLoading={formState.isSubmitting}>Entrar</Button>
+            
+      </Flex>
+      
+      <Image mt="8" mb="8" src="logo-fcamara.png" alt="Grupo FCamara Logo"/>
     </Flex>
   )
 }
+
+// <Box  w='100%' ml="-8" h={50} bgColor="myColors.600" align="center" justify="center">
+//               <Text>Esqueci minha senha</Text>
+//             </Box>
 // <Image mt="8" mb="8" src="logo-fcamara.png" alt="Grupo FCamara Logo"/>
 //<Text fontSize="64px">Torne-se o <Text color="myColors.fcamara">protagonista</Text> da sua história<Text color="myColors.fcamara">.</Text></Text>
