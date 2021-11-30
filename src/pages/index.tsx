@@ -25,10 +25,11 @@ export default function SigniIn() {
   const { signIn } = useContext(AuthContext)
 
   const handleSignIn: SubmitHandler<SignInFormData> = async (values) => {
-    const possiblMessage = await signIn({
+    const possibleMessage = await signIn({
       email: values.email,
       senha: values.password
     })
+    if(possibleMessage != undefined) alert(possibleMessage)
   }
 
 
