@@ -1,101 +1,253 @@
-import { Flex, Stack, Button, Image, Text, Box } from '@chakra-ui/react'
-import { SubmitHandler, useForm } from 'react-hook-form'
-import * as yup from 'yup'
-import { yupResolver  } from '@hookform/resolvers/yup/dist/yup'
-import { Input } from '../components/Form/Input'
-import { useContext } from 'react';
-import { AuthContext } from '../contexts/AuthContext'
+import Head from 'next/head';
+import NextLink from 'next/link';
+import { useRouter } from 'next/router';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import Swal from 'sweetalert2'
+import { Box, Button, Container, TextField, Typography, Snackbar } from '@mui/material';
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
 
-type SignInFormData = {
-  email: string;
-  password: string;
-}
-
-const signInFormSchema = yup.object().shape({
-  email: yup.string().required('E-mail obrigatório').email('E-mail inválido'),
-  password: yup.string().required('Senha obrigatória'),
-})
+import { useContext, useEffect, useState } from 'react';
+import { AuthContext } from '../contexts/AuthContext';
+import axios from 'axios';
 
 
-export default function SigniIn() {
-  const { register, handleSubmit, formState } = useForm({
-    resolver: yupResolver(signInFormSchema)
-  })
-  const { errors } = formState;
+const Login = () => {
   const { signIn } = useContext(AuthContext)
-
-  const handleSignIn: SubmitHandler<SignInFormData> = async (values) => {
-    const possibleMessage = await signIn({
-      email: values.email,
-      senha: values.password
-    })
-    if(possibleMessage != undefined) alert(possibleMessage)
+  const [popupError, setPopupError] = useState(false)
+  const [popupMensagem, setPopupMensagem] = useState("")
+  const similarCustomSA = {
+    width: 600,
+    padding: '3em',
+    color: '#fff',
+    background: '#343434',
+    backdrop: `
+      #00000066
+      left top
+      no-repeat
+    `,
+    confirmButtonColor: '#F96400',
+    confirmButtonText: 'Continuar'
+  }
+  const similarInputSA = {
+    maxlength: '10',
+    autocapitalize: 'off',
+    autocorrect: 'off'
   }
 
 
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: ''
+    },
+    validationSchema: Yup.object({
+      email: Yup
+        .string()
+        .email(
+          'Email invalido')
+        .max(255)
+        .required(
+          'Necessario digitar o email'),
+      password: Yup
+        .string()
+        .max(255)
+        .required(
+          'Necessario digitar a senha')
+    }),
+    onSubmit: async (values) => {
+      const possibleMessage = await signIn({
+        email: values.email,
+        senha: values.password
+      })
+      if(possibleMessage != undefined) {
+        handleOpenError(possibleMessage)
+      }
+    }
+  });
+
+  const handleOpenError = (message) => {
+    setPopupMensagem(message)
+    setPopupError(true)
+  }
+
+  const handleCloseError = (event?: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setPopupError(false);
+  };
+
+  const handleForgotPassword = async () => {
+    const email = formik.values.email
+    if(email) {
+      let code = ""
+      await axios.get(`http://localhost:8080/usuario/recuperacao_senha?email=${email}`)
+        .then(res => {
+          code = res.data
+        })
+
+      const { value } = await Swal.fire({
+        ...similarCustomSA,
+        title: 'Recuperação de senha',
+        input: 'text',
+        inputLabel: 'Pegue o código enviado em seu e-mail',
+        inputPlaceholder: 'Digite o codigo.',
+        inputAttributes: similarInputSA
+      })
+
+      if (code == value) {
+        const { value: novaSenha } = await Swal.fire({
+          ...similarCustomSA,
+          title: 'Digite sua nova senha',
+          input: 'password',
+          inputAttributes: similarInputSA
+        })
+
+        await axios.patch("http://localhost:8080/usuario/alterar_senha_nova", {
+          email,
+          senha_nova: novaSenha
+        }, {}).then(res=>{
+          if(res.data == 'Senha atualizada') {
+            Swal.fire({
+              ...similarCustomSA,
+              icon: 'success',
+              title: 'Sua senha foi atualizada com sucesso!',
+              showConfirmButton: false,
+              timer: 3000
+            })
+          } else {
+            Swal.fire({
+              ...similarCustomSA,
+              icon: 'error',
+              title: 'Erro ao atualizar senha!',
+              showConfirmButton: false,
+              timer: 3000
+            })
+          }
+        }).catch(({response})=>{
+          Swal.fire({
+            ...similarCustomSA,
+            icon: 'error',
+            title: 'Erro ao atualizar senha!',
+            showConfirmButton: false,
+            timer: 3000
+          })
+        })
+      }
+    } else {
+      Swal.fire({
+        ...similarCustomSA,
+        icon: 'error',
+        title: 'Digite seu e-mail!',
+        showConfirmButton: false,
+        timer: 2000
+      })
+    }
+  }
+
   return (
-    <Flex
-      w="100vw"
-      h="100vh"
-      align='center'
-      justify='center'
-      flexDir="column"
-    >
-      <Image mt="-30px" boxSize="350px" objectFit="contain" src="logo_slash_gradiente.png" alt="Orange Juice Social Logo"/>
+    <>
+      <Head>
+        <title>Login | Orange Juice</title>
+      </Head>
+      <Box
+        component="main"
+        sx={{
+          alignItems: 'center',
+          justifyContent: 'center',
+          display: 'flex',
+          flexDirection: 'column',
+          flexGrow: 1,
+          minHeight: '100%',
+        }}
+      >
+        <Container sx={{ width: 400, backgroundColor: '#282828' }} maxWidth="sm">
+          <form onSubmit={formik.handleSubmit}>
+            <Box sx={{ my: 3, display: 'flex', justifyContent: 'space-between'}}>
+              <Box>
+                <Typography
+                  color="textPrimary"
+                  variant="h4"
+                >
+                  Login
+                </Typography>
+                <Typography
+                  color="textSecondary"
+                  gutterBottom
+                  variant="body2"
+                >
+                  Torne-se o protagonista da sua história.
+                </Typography>
+              </Box>
+              <img width={80} height={80} src='/logo_static.svg' alt="logo orange juice" aria-label='logo orange juice'/>
+            </Box>
 
-      <Flex
-            as='form'
-            w="100%"
-            h={500}
-            mt="-20px"
-            maxWidth={360}
-            minHeight={500}
-            bg="myColors.700"
-            borderRadius={4}
-            flexDir="column"
-            p="8"
-            onSubmit={handleSubmit(handleSignIn)}
-            _before={{
-              content: `""`,
-              position:"absolute",
-              mt:"-30px",
-              ml:"-30px",
-              zIndex: "-1",
-              width: "360px",
-              height: "500px",
-              bg: "myColors.gradient-login",
-              filter: "blur(40px)"
-            }}
-          >
-            <Text align="center" w="100%" fontSize="29"  mb="4" >Login</Text>
-            <Stack spacing="4">
-              <Input
-                name="email"
-                type="email"
-                placeholder="E-mail"
-                error={errors.email}
-                {...register("email")}
-              />
-              <Input
-                name="password"
-                type="password"
-                placeholder="Senha"
-                error={errors.password}
-                {...register("password")}
-              />
+            <TextField
+              error={Boolean(formik.touched.email && formik.errors.email)}
+              fullWidth
+              helperText={formik.touched.email && formik.errors.email}
+              label="Endereço de email"
+              margin="normal"
+              name="email"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              type="email"
+              value={formik.values.email}
+              variant="outlined"
+            />
+            <TextField
+              error={Boolean(formik.touched.password && formik.errors.password)}
+              fullWidth
+              helperText={formik.touched.password && formik.errors.password}
+              label="Senha"
+              margin="normal"
+              name="password"
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              type="password"
+              value={formik.values.password}
+              variant="outlined"
+            />
+            <Box sx={{ py: 2 }}>
+              <Button
+                color="primary"
+                disabled={formik.isSubmitting}
+                fullWidth
+                size="large"
+                type="submit"
+                variant="contained"
+                sx={{background: 'linear-gradient(#FECE00, #F96400)'}}
+              >
+                Login
+              </Button>
+            </Box>
+          </form>
+          <Box sx={{ mb: 3, cursor: 'pointer'}}>
+            <Typography onClick={()=>{handleForgotPassword()}} color="text.secondary">
+              Esqueceu sua senha?
+            </Typography>
+          </Box>
+        </Container>
+        <Container sx={{
+          mt: 10,
+          position: 'absolute',
+          bottom: 30,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          cursor: 'pointer',
+        }}>
+          <img src='/logo-fcamara.png' alt="logo fcamara" aria-label='logo fcamara'/>
+        </Container>
+      </Box>
+      <Snackbar open={popupError} autoHideDuration={3000} onClose={handleCloseError} anchorOrigin={{ vertical:'top', horizontal:'center'}}>
+        <MuiAlert elevation={6} variant="filled" onClose={handleCloseError} severity="error" sx={{ width: 300 }} >
+          {popupMensagem}
+        </MuiAlert>
+      </Snackbar>
+    </>
+  );
+};
 
-            </Stack>
-            <Button type="submit" mt="6"  colorScheme="orange" size="lg" bgGradient="linear(to-r, red.500, yellow.500)" isLoading={formState.isSubmitting}>Entrar</Button>
-            
-      </Flex>
-      
-      <Image mt="8" mb="8" src="logo-fcamara.png" alt="Grupo FCamara Logo"/>
-    </Flex>
-  )
-}
-
-// <Box  w='100%' ml="-8" h={50} bgColor="myColors.600" align="center" justify="center">
-//               <Text>Esqueci minha senha</Text>
-//             </Box>
-// <Image mt="8" mb="8" src="logo-fcamara.png" alt="Grupo FCamara Logo"/>
-//<Text fontSize="64px">Torne-se o <Text color="myColors.fcamara">protagonista</Text> da sua história<Text color="myColors.fcamara">.</Text></Text>
+export default Login;
