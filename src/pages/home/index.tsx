@@ -1,5 +1,6 @@
 
 import { Button, Typography } from '@mui/material';
+import axios from 'axios';
 import { GetServerSideProps } from 'next';
 import { parseCookies } from 'nookies';
 import { useContext } from 'react';
@@ -36,8 +37,11 @@ export default function Home(props) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  //To usando o contexto aqui para pegar o header com o Bearer Token
   const { ['nextauth.token']: token } = parseCookies(ctx)
+  let usuario = {}
+  let noticias = []
+  let blogs = []
+  let eventos = []
 
   if (!token) {
     return {
@@ -47,20 +51,47 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       }
     }
   }
-  //else verifico informações do usuario ?
+  else{
+    await axios.get('http://localhost:8080/auth/usuario', {headers:{
+      "Authorization": `Bearer ${token}`
+    }})
+      .then(res => {
+        usuario = res.data
+      })
 
+    await axios.get(`http://localhost:8080/usuario/buscar?id_usuario=${usuario.id_usuario}`)
+      .then(res => {
+        usuario = res.data
+      })
 
+    await axios.get('http://localhost:8080/contentful/entries/home')
+      .then(res => {
+        const {
+          resultNoticias,
+          resultEventos,
+          resultBlogs
+        } = res.data
+
+        noticias = resultNoticias
+        blogs = resultBlogs
+        eventos = resultEventos
+      })
+  }
+
+  console.log({
+    usuario,
+    noticias,
+    blogs,
+    eventos
+  })
   //Aqui faria a requisição e buscaria os dados necessários,
   //como está e a pagina da home, preciso das noticias, eventos etc
-  let usuario = {};
-  // await apiClient.get('/auth/usuario')
-  //   .then(res => {
-  //     usuario = res.data.data
-  //   })
-
   return {
     props: {
-      usuario
+      usuario,
+      noticias,
+      blogs,
+      eventos
     }
   }
 }
