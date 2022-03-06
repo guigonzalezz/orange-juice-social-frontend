@@ -2,8 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import { setCookie, parseCookies, destroyCookie } from 'nookies'
 import Router from 'next/router'
 
-import { recoverUserInformation, signInRequest } from "../services/auth";
-import { api } from "../services/api";
+import axios from "axios";
 
 
 type SignInData = {
@@ -18,6 +17,14 @@ type AuthContextType = {
   logout: () => Promise<void>;
 }
 
+const recoverUserInformation = async () => {
+  const { 'nextauth.token': token } = parseCookies()
+  axios.defaults.headers['Authorization'] = `Bearer ${token}`;
+  return {
+    user: await axios.get('http://localhost:8080/auth/usuario')
+  }
+}
+
 export const AuthContext = createContext({} as AuthContextType)
 
 export function AuthProvider({ children }) {
@@ -27,7 +34,6 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const { 'nextauth.token': token } = parseCookies()
-
     if (token) {
       recoverUserInformation().then(response => {
         setUser(response.user)
@@ -36,31 +42,36 @@ export function AuthProvider({ children }) {
   }, [])
 
   async function signIn({ email, senha }: SignInData) {
-    const { token, message } = await signInRequest({
-      email,
-      senha,
-    })
-    if(token) {
-      setCookie(undefined, 'nextauth.token', token, {
-        maxAge: 60 * 60 * 1, // 1 hour
+    let token = undefined;
+      let message = undefined;
+      const res = await axios.post('http://localhost:8080/auth/login',{ email, senha })
+      .then(async res => {
+        token = res.data;
       })
-  
-      api.defaults.headers['Authorization'] = `Bearer ${token}`;
-  
-      recoverUserInformation().then(response => {
-        setUser(response.user)
+      .catch(({ response }) => {
+        message = response.data
       })
-  
-      Router.push('/home');
-    }
-    else if(message) { 
-      return message
-    }
-      
+
+      if(token) {
+        setCookie(undefined, 'nextauth.token', token, {
+          maxAge: 60 * 60 * 1, // 1 hour
+        })
+
+        axios.defaults.headers['Authorization'] = `Bearer ${token}`;
+
+        recoverUserInformation().then(response => {
+          setUser(response.user)
+        })
+
+        Router.push('/home');
+      }
+      else if(message) {
+        return message
+      }
   }
 
   async function logout() {
-    destroyCookie({}, 'nextauth.token')
+    destroyCookie({ res: undefined }, 'nextauth.token')
     Router.push('/')
   }
 
