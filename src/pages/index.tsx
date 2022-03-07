@@ -10,6 +10,8 @@ import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import axios from 'axios';
+import { GetServerSideProps } from 'next';
+import { parseCookies } from 'nookies';
 
 
 const Login = () => {
@@ -249,5 +251,22 @@ const Login = () => {
     </>
   );
 };
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { ['nextauth.token']: token } = parseCookies(ctx)
+  if (token) {
+    return {
+      redirect: {
+        destination: '/home',
+        permanent: false,
+      }
+    }
+  }
+  return {
+    props: {
+
+    }
+  }
+}
 
 export default Login;
