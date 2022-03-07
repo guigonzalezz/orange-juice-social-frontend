@@ -43,31 +43,31 @@ export function AuthProvider({ children }) {
 
   async function signIn({ email, senha }: SignInData) {
     let token = undefined;
-      let message = undefined;
-      const res = await axios.post('http://localhost:8080/auth/login',{ email, senha })
-      .then(async res => {
-        token = res.data;
+    let message = undefined;
+    await axios.post('http://localhost:8080/auth/login',{ email, senha })
+    .then(async res => {
+      token = res.data;
+    })
+    .catch(({ response }) => {
+      message = response.data
+    })
+
+    if(token) {
+      setCookie(undefined, 'nextauth.token', token, {
+        maxAge: 60 * 60 * 1, // 1 hour
       })
-      .catch(({ response }) => {
-        message = response.data
+
+      axios.defaults.headers['Authorization'] = `Bearer ${token}`;
+
+      recoverUserInformation().then(response => {
+        setUser(response.user)
       })
 
-      if(token) {
-        setCookie(undefined, 'nextauth.token', token, {
-          maxAge: 60 * 60 * 1, // 1 hour
-        })
-
-        axios.defaults.headers['Authorization'] = `Bearer ${token}`;
-
-        recoverUserInformation().then(response => {
-          setUser(response.user)
-        })
-
-        Router.push('/home');
-      }
-      else if(message) {
-        return message
-      }
+      Router.push('/home');
+    }
+    else if(message) {
+      return message
+    }
   }
 
   async function logout() {
