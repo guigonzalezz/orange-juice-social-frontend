@@ -1,44 +1,144 @@
 
 import { Button, Typography } from '@mui/material';
+import Head from 'next/head';
 import axios from 'axios';
 import { GetServerSideProps } from 'next';
 import { parseCookies } from 'nookies';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 
+import { Box, Container, Grid } from '@mui/material';
+import { Budget } from '../../components/dashboard/budget';
+import { LatestOrders } from '../../components/dashboard/latest-orders';
+import { LatestProducts } from '../../components/dashboard/latest-products';
+import { Sales } from '../../components/dashboard/sales';
+import { TasksProgress } from '../../components/dashboard/tasks-progress';
+import { TotalCustomers } from '../../components/dashboard/total-customers';
+import { TotalProfit } from '../../components/dashboard/total-profit';
+import { TrafficByDevice } from '../../components/dashboard/traffic-by-device';
+import { DashboardLayout } from '../../components/dashboard-layout';
+import { UsuarioContext } from '../../contexts/UsuarioContext';
 
-export default function Home(props) {
-  const { logout } = useContext(AuthContext)
-  const { usuario } = props
-  //if props.cargo == 'admin' entao o header é diferente
 
-  const logoutUser = async  () => {
-    await logout();
-  }
+
+const Home = (props) => {
+  const { setUser } = useContext(UsuarioContext)
+  const {
+    usuario,
+    noticias,
+    blogs,
+    eventos
+  } = props
+  const isAdmin = usuario.cargo == 'admin'//exibe opcoes do menu diferente
+
+  useEffect(()=>{
+    setUser(usuario)
+  },[])
+
 
   return (
-    <>
-      <Typography>Ola mundo</Typography>
-      <Button onClick={()=> {logoutUser()}}>Logout</Button>
-    </>
-    // <Flex
-    //   w="100vw"
-    //   h="100vh"
-    //   align='center'
-    //   justify='center'
-    //   flexDir="column"
-    // >
-    //   <Image mt="-30px" boxSize="350px" objectFit="contain" src="logo_slash_gradiente.png" alt="Orange Juice Social Logo"/>
-    //   <Text color="myColors.fcamara" fontSize={36}>{usuario.email_empresarial}</Text>
-    //   <Text color="myColors.fcamara" fontSize={36}>{usuario.cargo}</Text>
-    //   <Button type="button" mt="6" colorScheme="orange" size="lg" bgGradient="linear(to-r, red.500, yellow.500)" onClick={logoutUser} >Sair</Button>
-    // </Flex>
+    <DashboardLayout avatarLink={usuario.avatar_link} isAdmin={usuario.cargo == 'admin'}>
+      <Head>
+        <title>
+          Home | Orange Juice
+        </title>
+      </Head>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          py: 4
+        }}
+      >
+        <Container maxWidth={false}>
+          <Grid
+            container
+            spacing={3}
+          >
+            <Grid
+              item
+              lg={3}
+              sm={6}
+              xl={3}
+              xs={12}
+            >
+              <Budget />
+            </Grid>
+            <Grid
+              item
+              xl={3}
+              lg={3}
+              sm={6}
+              xs={12}
+            >
+              <TotalCustomers />
+            </Grid>
+            <Grid
+              item
+              xl={3}
+              lg={3}
+              sm={6}
+              xs={12}
+            >
+              <TasksProgress />
+            </Grid>
+            <Grid
+              item
+              xl={3}
+              lg={3}
+              sm={6}
+              xs={12}
+            >
+              <TotalProfit sx={{ height: '100%' }} />
+            </Grid>
+            <Grid
+              item
+              lg={8}
+              md={12}
+              xl={9}
+              xs={12}
+            >
+              <Sales />
+            </Grid>
+            <Grid
+              item
+              lg={4}
+              md={6}
+              xl={3}
+              xs={12}
+            >
+              <TrafficByDevice sx={{ height: '100%' }} />
+            </Grid>
+            <Grid
+              item
+              lg={4}
+              md={6}
+              xl={3}
+              xs={12}
+            >
+              <LatestProducts sx={{ height: '100%' }} />
+            </Grid>
+            <Grid
+              item
+              lg={8}
+              md={12}
+              xl={9}
+              xs={12}
+            >
+              <LatestOrders />
+            </Grid>
+          </Grid>
+        </Container>
+      </Box>
+    </DashboardLayout>
   )
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { ['nextauth.token']: token } = parseCookies(ctx)
-  let usuario = {}
+  let usuario = {
+    id_usuario: 0
+  }
   let noticias = []
   let blogs = []
   let eventos = []
@@ -78,14 +178,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       })
   }
 
-  console.log({
-    usuario,
-    noticias,
-    blogs,
-    eventos
-  })
-  //Aqui faria a requisição e buscaria os dados necessários,
-  //como está e a pagina da home, preciso das noticias, eventos etc
   return {
     props: {
       usuario,
@@ -95,3 +187,5 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     }
   }
 }
+
+export default Home
