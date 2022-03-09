@@ -18,6 +18,7 @@ import { TotalProfit } from '../../components/dashboard/total-profit';
 import { TrafficByDevice } from '../../components/dashboard/traffic-by-device';
 import { DashboardLayout } from '../../components/dashboard-layout';
 import { UsuarioContext } from '../../contexts/UsuarioContext';
+import { Noticias } from '../../components/home/noticias';
 
 
 
@@ -55,42 +56,7 @@ const Home = (props) => {
             container
             spacing={3}
           >
-            <Grid
-              item
-              lg={3}
-              sm={6}
-              xl={3}
-              xs={12}
-            >
-              <Budget />
-            </Grid>
-            <Grid
-              item
-              xl={3}
-              lg={3}
-              sm={6}
-              xs={12}
-            >
-              <TotalCustomers />
-            </Grid>
-            <Grid
-              item
-              xl={3}
-              lg={3}
-              sm={6}
-              xs={12}
-            >
-              <TasksProgress />
-            </Grid>
-            <Grid
-              item
-              xl={3}
-              lg={3}
-              sm={6}
-              xs={12}
-            >
-              <TotalProfit sx={{ height: '100%' }} />
-            </Grid>
+
             <Grid
               item
               lg={8}
@@ -98,7 +64,7 @@ const Home = (props) => {
               xl={9}
               xs={12}
             >
-              <Sales />
+              <Noticias info={noticias}/>
             </Grid>
             <Grid
               item
