@@ -1,5 +1,5 @@
 
-import { Button, Typography } from '@mui/material';
+import { Button, Typography, useTheme } from '@mui/material';
 import Head from 'next/head';
 import axios from 'axios';
 import { GetServerSideProps } from 'next';
@@ -19,6 +19,7 @@ import { TrafficByDevice } from '../../components/dashboard/traffic-by-device';
 import { DashboardLayout } from '../../components/dashboard-layout';
 import { UsuarioContext } from '../../contexts/UsuarioContext';
 import { Noticias } from '../../components/home/noticias';
+import { Blog } from '../../components/home/blog';
 
 
 
@@ -31,6 +32,7 @@ const Home = (props) => {
     eventos
   } = props
   const isAdmin = usuario.cargo == 'admin'//exibe opcoes do menu diferente
+  const theme = useTheme()
 
   useEffect(()=>{
     setUser(usuario)
@@ -48,7 +50,7 @@ const Home = (props) => {
         component="main"
         sx={{
           flexGrow: 1,
-          py: 4
+          py: 4,
         }}
       >
         <Container maxWidth={false}>
@@ -59,40 +61,51 @@ const Home = (props) => {
 
             <Grid
               item
-              lg={8}
-              md={12}
-              xl={9}
-              xs={12}
+              lg={12}// number of columns,  estava 9, breakpoint lg
+              md={12}// number of columns, breakpoint md
+              xl={9}// number o columns, breakpoint xl
+              xs={12}// number o columns, breakpoint xs
             >
+              <Typography sx={{fontSize: 28}}>Noticias</Typography>
               <Noticias info={noticias}/>
             </Grid>
+
+
+
             <Grid
               item
-              lg={4}
-              md={6}
-              xl={3}
-              xs={12}
-            >
-              <TrafficByDevice sx={{ height: '100%' }} />
-            </Grid>
-            <Grid
-              item
-              lg={4}
-              md={6}
-              xl={3}
-              xs={12}
-            >
-              <LatestProducts sx={{ height: '100%' }} />
-            </Grid>
-            <Grid
-              item
-              lg={8}
+              lg={12}
               md={12}
               xl={9}
               xs={12}
+              sx={{mb:5}}
             >
-              <LatestOrders />
+              <Typography sx={{fontSize: 28}}>Blog</Typography>
+              <Blog info={blogs}/>
             </Grid>
+
+            <Grid
+              item
+              lg={6}
+              md={6}
+              xl={3}
+              xs={12}
+            >
+              <Typography sx={{fontSize: 28}}>Calendario</Typography>
+              <TrafficByDevice sx={{ height: '60%' }} />
+            </Grid>
+
+            <Grid
+              item
+              lg={6}
+              md={6}
+              xl={3}
+              xs={12}
+            >
+              <Typography sx={{fontSize: 28}}>Eventos e Reunioes</Typography>
+              <TrafficByDevice sx={{ height: '60%' }} />
+            </Grid>
+
           </Grid>
         </Container>
       </Box>
