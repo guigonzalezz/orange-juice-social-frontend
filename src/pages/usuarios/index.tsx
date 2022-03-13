@@ -4,10 +4,31 @@ import { GetServerSideProps } from 'next';
 import { parseCookies } from 'nookies';
 
 import { DashboardLayout } from '../../components/dashboard-layout';
+import { Box, Container } from '@mui/material';
 
-const Usuarios = (props) => {
-  const { usuario } = props
+import { CustomerListResults } from '../../components/customer/customer-list-results';
+import { CustomerListToolbar } from '../../components/customer/customer-list-toolbar';
+import { useState } from 'react';
+
+const Usuarios = ({ usuario, usuarios }) => {
   const isAdmin = usuario.cargo == 'admin'
+  const [filtroNome, setFiltroNome] = useState('')
+  const [idsUsuariosSelecionados, setIdsUsuariosSelecionados] = useState([]);
+  const [usuariosTable, setUsuariosTable] = useState(usuarios)
+
+  const variaveis = {
+    usuarios,
+    usuariosTable,
+    filtroNome,
+    idsUsuariosSelecionados
+  }
+
+  const funcoes = {
+    setUsuariosTable,
+    setIdsUsuariosSelecionados,
+    setFiltroNome
+  }
+
   return (
     <DashboardLayout avatarLink={usuario.avatar_link} isAdmin={isAdmin}>
       <Head>
@@ -15,6 +36,27 @@ const Usuarios = (props) => {
           {`Usuarios | Orange Juice`}
         </title>
       </Head>
+
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          py: 8
+        }}
+      >
+        <Container maxWidth={false}>
+          <CustomerListToolbar
+            variaveis={variaveis}
+            funcoes={funcoes}
+          />
+          <Box sx={{ mt: 3 }}>
+            <CustomerListResults
+              variaveis={variaveis}
+              funcoes={funcoes}
+            />
+          </Box>
+        </Container>
+      </Box>
 
     </DashboardLayout>
   )
@@ -26,7 +68,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     id_usuario: 0,
     cargo: ''
   }
-
+  let usuarios = []
   if (!token) {
     return {
       redirect: {
@@ -36,11 +78,16 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     }
   }
   else{
+
     await axios.get('http://localhost:8080/auth/usuario', {headers:{
       "Authorization": `Bearer ${token}`
     }})
       .then(res => {
+        console.log(usuario)
         usuario = res.data
+      })
+      .catch(error => {
+        console.log("Error -> ", error)
       })
 
     await axios.get(`http://localhost:8080/usuario/buscar?id_usuario=${usuario.id_usuario}`)
@@ -55,12 +102,18 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
           permanent: false,
         }
       }
+    } else {
+      await axios.get(`http://localhost:8080/usuario/listar`)
+      .then(res => {
+        usuarios = res.data
+      })
     }
   }
 
   return {
     props: {
-      usuario
+      usuario,
+      usuarios
     }
   }
 }
