@@ -5,8 +5,7 @@ import { addDays, format } from 'date-fns';
 import Link from 'next/link';
 
 interface IProps {
-  item: INoticia,
-  key: number
+  item: INoticia
 }
 interface INoticia {
   descricao: string,
@@ -25,10 +24,11 @@ export const Noticias = (props) => {
   useEffect(()=>{//Noticia esta na data de validade?
     if(items.length > 0){
       setItems(items.filter(item => format(addDays(new Date(item.stampAt),1), 'dd/MM/yyyy') > format(new Date(), 'dd/MM/yyyy')))
+      setItems(items.sort((a, b) =>  a.stampCreated > b.stampCreated ? 1 :  b.stampCreated > a.stampCreated ? -1 : 0))
     }
   },[])
 
-  function Item({ item, key }:IProps)
+  function Item({ item }:IProps)
   {
       return (
           <Tooltip title={item.descricao}>
