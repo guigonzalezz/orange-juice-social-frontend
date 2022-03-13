@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import { Box, Typography, Tooltip } from '@mui/material'
 import Link from 'next/link'
 
@@ -18,6 +18,10 @@ interface IBlog {
 export const Blog = (props) => {
   const { info } = props
   const [items, setItems] = useState(info)
+
+  useEffect(()=>{
+    setItems(items.sort((a, b) =>  a.stampCreated > b.stampCreated ? 1 :  b.stampCreated > a.stampCreated ? -1 : 0))
+  },[])
 
   function Item({ item }:IProps)
   {
