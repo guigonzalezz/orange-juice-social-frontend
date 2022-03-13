@@ -20,6 +20,8 @@ import { DashboardLayout } from '../../components/dashboard-layout';
 import { UsuarioContext } from '../../contexts/UsuarioContext';
 import { Noticias } from '../../components/home/noticias';
 import { Blog } from '../../components/home/blog';
+import { Eventos } from '../../components/home/eventos';
+import { Calendario } from '../../components/home/calendario';
 
 
 
@@ -92,7 +94,7 @@ const Home = (props) => {
               xs={12}
             >
               <Typography sx={{fontSize: 28}}>Calendario</Typography>
-              <TrafficByDevice sx={{ height: '60%' }} />
+              <Calendario info={eventos} />
             </Grid>
 
             <Grid
@@ -103,7 +105,7 @@ const Home = (props) => {
               xs={12}
             >
               <Typography sx={{fontSize: 28}}>Eventos e Reunioes</Typography>
-              <TrafficByDevice sx={{ height: '60%' }} />
+              <Eventos info={eventos} />
             </Grid>
 
           </Grid>
