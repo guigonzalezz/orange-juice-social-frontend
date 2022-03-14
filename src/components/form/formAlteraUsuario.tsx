@@ -91,7 +91,7 @@ const FormAlteraUsuario = ({ handleClose, cargos, usuario }) => {
       }).then(async res => {
         handleClose();
         if(formik.values.cargo != usuario.id_cargo) {
-          await axios.patch(`http://localhost:8080/usuario/atualizarCargo/${usuario.id_usuario}?id_cargo=${usuario.id_cargo}`)
+          await axios.patch(`http://localhost:8080/usuario/atualizarCargo/${usuario.id_usuario}?id_cargo=${formik.values.cargo}`)
         }
         Swal.fire({
           ...similarCustomSA,
