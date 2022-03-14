@@ -7,6 +7,7 @@ import {
   Box,
   Card,
   Checkbox,
+  Chip,
   Table,
   TableBody,
   TableCell,
@@ -16,6 +17,8 @@ import {
   Typography
 } from '@mui/material';
 import { getInitials } from '../../utils/get-initials';
+
+
 
 export const CustomerListResults = ({ variaveis, funcoes, ...rest }) => {
   const { usuarios,usuariosTable, filtroNome, idsUsuariosSelecionados } = variaveis
@@ -27,6 +30,10 @@ export const CustomerListResults = ({ variaveis, funcoes, ...rest }) => {
     if(filtroNome == '') setUsuariosTable(usuarios)
     else setUsuariosTable(usuariosTable.filter(usuario => usuario.perfil.nome.includes(filtroNome)))
   },[filtroNome])
+
+  useEffect(() =>{
+
+  },[page])
 
   const handleSelectAll = (event) => {
     let newSelectedCustomerIds;
@@ -74,7 +81,7 @@ export const CustomerListResults = ({ variaveis, funcoes, ...rest }) => {
         <Box sx={{ minWidth: 1050 }}>
           <Table>
             <TableHead>
-              <TableRow>
+              <TableRow sx={{background:'#232323'}}>
                 <TableCell padding="checkbox">
                   <Checkbox
                     checked={idsUsuariosSelecionados.length === usuariosTable.length}
@@ -87,28 +94,33 @@ export const CustomerListResults = ({ variaveis, funcoes, ...rest }) => {
                   />
                 </TableCell>
                 <TableCell>
-                  Nome
+                  <Typography sx={{color:'white', fontSize: 12}}>Nome</Typography>
                 </TableCell>
                 <TableCell>
-                  Email
+                  <Typography sx={{color:'white', fontSize: 12}}>Status</Typography>
                 </TableCell>
                 <TableCell>
-                  Localização
+                  <Typography sx={{color:'white', fontSize: 12}}>Localização</Typography>
                 </TableCell>
                 <TableCell>
-                  Contato
+                  <Typography sx={{color:'white', fontSize: 12}}>Contato</Typography>
                 </TableCell>
                 <TableCell>
-                  Data de registro
+                  <Typography sx={{color:'white', fontSize: 12}}>Cargo</Typography>
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {usuariosTable.slice(0, limit).map((usuario) => (
+              {(limit > 0
+                ? usuariosTable.slice(page * limit, page * limit + limit)
+                : usuariosTable).map((usuario) => (
                 <TableRow
-                  hover
                   key={usuario.id_usuario}
                   selected={idsUsuariosSelecionados.indexOf(usuario.id_usuario) !== -1}
+                  sx={{background: '#1c1c1c', highlight: {
+                    background: 'red'
+                  }}}
+
                 >
                   <TableCell padding="checkbox">
                     <Checkbox
@@ -119,21 +131,31 @@ export const CustomerListResults = ({ variaveis, funcoes, ...rest }) => {
                   </TableCell>
                   <TableCell>
                     <Box sx={{alignItems: 'center',display: 'flex'}}>
-                      <Avatar src={usuario.avatar_url} sx={{ mr: 2 }}></Avatar>
-                      <Typography color="textSecondary" variant="body1">{usuario.perfil.nome}</Typography>
+                      <Box>
+                        <Typography sx={{ fontSize: 14}} variant="body1">{usuario.perfil.nome}</Typography>
+                        <Typography sx={{ fontSize: 14}} color='#8C8C8C' variant="body1">{usuario.perfil.email}</Typography>
+                      </Box>
                     </Box>
                   </TableCell>
                   <TableCell>
-                    <Typography color="textSecondary">{usuario.perfil.email}</Typography>
+                    <Box>
+                      {usuario.ativo_SN == 'S' ?
+                        <Chip size="small" label="Ativo" color="primary" />
+                        :
+                        // @ts-ignore:
+                        <Chip size="small" label="Inativo" color="inative"/>
+                      }
+                      <Typography color='#8C8C8C' sx={{fontSize: 12}}>Criado em:{format(new Date(usuario.stamp_created), 'dd/MM/yyyy')}</Typography>
+                    </Box>
                   </TableCell>
                   <TableCell>
-                    <Typography color="textSecondary">{`${usuario.perfil.cidade}, ${usuario.perfil.estado}, ${usuario.perfil.pais}`}</Typography>
+                    <Typography >{`${usuario.perfil.cidade}, ${usuario.perfil.estado}, ${usuario.perfil.pais}`}</Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography color="textSecondary">{usuario.perfil.contato}</Typography>
+                    <Typography >{usuario.perfil.contato}</Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography color="textSecondary">{format(new Date(usuario.stamp_created), 'dd/MM/yyyy')}</Typography>
+                    <Typography >{usuario.cargo.nome}</Typography>
                   </TableCell>
                 </TableRow>
               ))}

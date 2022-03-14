@@ -10,7 +10,7 @@ import { CustomerListResults } from '../../components/customer/customer-list-res
 import { CustomerListToolbar } from '../../components/customer/customer-list-toolbar';
 import { useState } from 'react';
 
-const Usuarios = ({ usuario, usuarios }) => {
+const Usuarios = ({ usuario, usuarios, cargos }) => {
   const isAdmin = usuario.cargo == 'admin'
   const [filtroNome, setFiltroNome] = useState('')
   const [idsUsuariosSelecionados, setIdsUsuariosSelecionados] = useState([]);
@@ -18,6 +18,7 @@ const Usuarios = ({ usuario, usuarios }) => {
 
   const variaveis = {
     usuarios,
+    cargos,
     usuariosTable,
     filtroNome,
     idsUsuariosSelecionados
@@ -69,6 +70,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     cargo: ''
   }
   let usuarios = []
+  let cargos = []
   if (!token) {
     return {
       redirect: {
@@ -107,13 +109,19 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       .then(res => {
         usuarios = res.data
       })
+
+      await axios.get(`http://localhost:8080/cargo/listar`)
+      .then(res => {
+        cargos = res.data
+      })
     }
   }
 
   return {
     props: {
       usuario,
-      usuarios
+      usuarios,
+      cargos
     }
   }
 }

@@ -14,6 +14,9 @@ import { Add, Delete, ManageAccounts } from '@mui/icons-material';
 import Swal from 'sweetalert2'
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import ModalInsereUsuario from '../modal/modalInsereUsuario';
+import { useState } from 'react';
+import ModalAlteraUsuario from '../modal/modalAlteraUsuario';
 
 const similarCustomSA = {
   width: 600,
@@ -36,8 +39,13 @@ const similarInputSA = {
 
 
 export const CustomerListToolbar = (props) => {
-  const { idsUsuariosSelecionados } = props.variaveis
+  const { idsUsuariosSelecionados, cargos } = props.variaveis
   const { setFiltroNome, setUsuariosTable } = props.funcoes
+  const [openInsere, setOpenInsere] = useState(false);
+  const [openAltera, setOpenAltera] = useState(false);
+
+  const [handleAlteraUsuarioInfo, setHandleAlteraUsuarioInfo] = useState({});
+
   const router = useRouter()
   const forceReload = () => {
     router.reload()
@@ -101,7 +109,7 @@ export const CustomerListToolbar = (props) => {
         denyButtonText: `Cancelar`,
       }).then(async (result) => {
         if (result.isConfirmed) {
-          await axios.delete(`http://localhost:8080/usuario/deletar_varios?ids=${ids.join(',')}`)
+          await axios.delete(`http://localhost:8080/usuario/deletarVarios?ids=${ids.join(',')}`)
           .then(async res => {
             Swal.fire({
               ...similarCustomSA,
@@ -130,6 +138,55 @@ export const CustomerListToolbar = (props) => {
     }
   }
 
+  const handleInsereOpen = () => {
+    setOpenInsere(true);
+  }
+
+  const handleInsereClose = () => {
+    setOpenInsere(false);
+  }
+
+  const handleAlteraOpen = async () => {
+    if(idsUsuariosSelecionados.length == 0) {
+      Swal.fire({
+        ...similarCustomSA,
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Selecione um usuario!',
+        confirmButtonText:'OK',
+      })
+    }
+    else if(idsUsuariosSelecionados.length == 1) {
+      await axios.get(`http://localhost:8080/usuario/buscarPerfil?id_usuario=${idsUsuariosSelecionados[0]}`)
+        .then(async res => {
+          setHandleAlteraUsuarioInfo({
+            nome: res.data.nome,
+            email_pessoal: res.data.email,
+            contato: res.data.contato,
+            data_nasc: res.data.data_nasc,
+            cidade: res.data.cidade,
+            estado: res.data.estado,
+            id_usuario: 3,
+            id_cargo: (await axios.get(`http://localhost:8080/usuario/buscarCargo?id_usuario=${idsUsuariosSelecionados[0]}`)).data.id_cargo
+          })
+        })
+      setOpenAltera(true);
+    }
+    else if(idsUsuariosSelecionados.length > 1) {
+      Swal.fire({
+        ...similarCustomSA,
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Selecione apenas um usuario!',
+        confirmButtonText:'OK',
+      })
+    }
+  }
+
+  const handleAlteraClose = () => {
+    setOpenAltera(false);
+  }
+
   return (
     <Box {...props}>
       <Box
@@ -153,6 +210,7 @@ export const CustomerListToolbar = (props) => {
             variant="contained"
             startIcon={(<ManageAccounts fontSize="small" />)}
             sx={{ mr: 1 }}
+            onClick={()=>{handleAlteraOpen()}}
           >
             Alterar
           </Button>
@@ -170,6 +228,7 @@ export const CustomerListToolbar = (props) => {
             variant="contained"
             startIcon={(<Add fontSize="small" />)}
             sx={{ mr: 1 }}
+            onClick={()=>{handleInsereOpen()}}
           >
             Adicionar
           </Button>
@@ -199,6 +258,8 @@ export const CustomerListToolbar = (props) => {
           />
         </Box>
       </Box>
+      <ModalInsereUsuario open={openInsere} handleClose={handleInsereClose} cargos={cargos} />
+      <ModalAlteraUsuario open={openAltera} handleClose={handleAlteraClose} cargos={cargos} usuario={handleAlteraUsuarioInfo} />
     </Box>
   )
 };

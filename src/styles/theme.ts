@@ -168,6 +168,12 @@ export const theme = createTheme({
       dark: '#EEC100',
       contrastText: '#FFFFFF'
     },
+    inative: {
+      main: '#65748B',
+      light: '#aeb6c1',
+      dark: '#43464a',
+      contrastText: '#FFFFFF'
+    },
     success: {
       main: '#14B8A6',
       light: '#43C6B7',
