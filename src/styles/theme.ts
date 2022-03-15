@@ -129,9 +129,20 @@ export const theme = createTheme({
           }
         }
       }
+    },
+    MuiTableRow: {
+      styleOverrides: {
+        root: {
+          "&.Mui-selected, &.Mui-selected:hover": {
+            "& > .MuiTableCell-root": {
+              backgroundColor: "#161616",
+            }
+          }
+        }
+      }
     }
   },
-  palette: {
+  palette: {// @ts-ignore:
     neutral: {
       100: '#F3F4F6',
       200: '#E5E7EB',
@@ -153,7 +164,6 @@ export const theme = createTheme({
     },
     background: {
       default: '#1C1B16',
-      paper: '#FFFFFF'
     },
     divider: '#E6E8F0',
     primary: {

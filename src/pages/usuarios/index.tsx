@@ -6,8 +6,8 @@ import { parseCookies } from 'nookies';
 import { DashboardLayout } from '../../components/dashboard-layout';
 import { Box, Container } from '@mui/material';
 
-import { CustomerListResults } from '../../components/customer/customer-list-results';
-import { CustomerListToolbar } from '../../components/customer/customer-list-toolbar';
+import { UsuarioListResults } from '../../components/usuario/usuario-list-results';
+import { UsuarioListToolbar } from '../../components/usuario/usuario-list-toolbar';
 import { useState } from 'react';
 
 const Usuarios = ({ usuario, usuarios, cargos }) => {
@@ -46,12 +46,12 @@ const Usuarios = ({ usuario, usuarios, cargos }) => {
         }}
       >
         <Container maxWidth={false}>
-          <CustomerListToolbar
+          <UsuarioListToolbar
             variaveis={variaveis}
             funcoes={funcoes}
           />
           <Box sx={{ mt: 3 }}>
-            <CustomerListResults
+            <UsuarioListResults
               variaveis={variaveis}
               funcoes={funcoes}
             />

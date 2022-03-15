@@ -38,7 +38,7 @@ const similarInputSA = {
 }
 
 
-export const CustomerListToolbar = (props) => {
+export const UsuarioListToolbar = (props) => {
   const { idsUsuariosSelecionados, cargos } = props.variaveis
   const { setFiltroNome, setUsuariosTable } = props.funcoes
   const [openInsere, setOpenInsere] = useState(false);
