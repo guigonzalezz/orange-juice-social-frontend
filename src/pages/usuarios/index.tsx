@@ -85,7 +85,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       "Authorization": `Bearer ${token}`
     }})
       .then(res => {
-        console.log(usuario)
         usuario = res.data
       })
       .catch(error => {

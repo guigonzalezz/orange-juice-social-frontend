@@ -1,15 +1,11 @@
 import {
   Box,
   Button,
-  Card,
-  CardContent,
   TextField,
   InputAdornment,
   SvgIcon, Typography
 } from '@mui/material';
 import { Search as SearchIcon } from '../../icons/search';
-import { Upload as UploadIcon } from '../../icons/upload';
-import { Download as DownloadIcon } from '../../icons/download';
 import { Add, Delete, ManageAccounts } from '@mui/icons-material';
 import Swal from 'sweetalert2'
 import axios from 'axios';
@@ -30,11 +26,6 @@ const similarCustomSA = {
   `,
   confirmButtonColor: '#F96400',
   confirmButtonText: 'Continuar'
-}
-const similarInputSA = {
-  maxlength: '10',
-  autocapitalize: 'off',
-  autocorrect: 'off'
 }
 
 
@@ -166,7 +157,7 @@ export const UsuarioListToolbar = (props) => {
             data_nasc: res.data.data_nasc,
             cidade: res.data.cidade,
             estado: res.data.estado,
-            id_usuario: 3,
+            id_usuario: res.data.id_usuario,
             id_cargo: (await axios.get(`http://localhost:8080/usuario/buscarCargo?id_usuario=${idsUsuariosSelecionados[0]}`)).data.id_cargo
           })
         })

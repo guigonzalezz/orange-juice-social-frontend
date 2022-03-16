@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import PerfectScrollbar from 'react-perfect-scrollbar';
 import { format } from 'date-fns';
 import {
   Box,
@@ -9,7 +8,6 @@ import {
   IconButton,
   ListItemIcon,
   ListItemText,
-  Menu,
   MenuItem,
   Table,
   TableBody,
@@ -21,17 +19,13 @@ import {
 } from '@mui/material';
 import { LegendToggle, MoreVert } from '@mui/icons-material';
 import axios from 'axios';
-import { useRouter } from 'next/router';
 import { StyledMenuAnchor } from '../shared/StyledAnchorMenu'
-import { withStyles } from '@mui/styles';
-
 
 export const UsuarioListResults = ({ variaveis, funcoes, ...rest }) => {
   const { usuarios,usuariosTable, filtroNome, idsUsuariosSelecionados } = variaveis
   const { setUsuariosTable, setIdsUsuariosSelecionados} = funcoes
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
-  const router = useRouter()
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -98,13 +92,10 @@ export const UsuarioListResults = ({ variaveis, funcoes, ...rest }) => {
     await axios.patch(`http://localhost:8080/usuario/toggleAtivoInativo?id_usuario=${id}`)
       .then(async res=> {
         if(res.data) {
-          console.log("ATUALIZOU")
           await axios.get(`http://localhost:8080/usuario/listar`)
             .then(res => {
               setUsuariosTable(res.data)
             })
-        }else {
-          console.log("NAO ATUALIZOU")
         }
       })
   }
