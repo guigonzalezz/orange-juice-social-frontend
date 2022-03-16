@@ -4,10 +4,31 @@ import { GetServerSideProps } from 'next';
 import { parseCookies } from 'nookies';
 
 import { DashboardLayout } from '../../components/dashboard-layout';
+import { Box, Container } from '@mui/material';
 
-const Cargos = (props) => {
-  const { usuario } = props
-  const isAdmin = usuario.cargo == 'admin'//exibe opcoes do menu diferente
+import { CargoListResults } from '../../components/tabela/cargo-list-results';
+import { CargoListToolbar } from '../../components/tabela/cargo-list-toolbar';
+import { useState } from 'react';
+
+const Cargos = ({ usuario, cargos }) => {
+  const isAdmin = usuario.cargo == 'admin'
+  const [filtroNome, setFiltroNome] = useState('')
+  const [idsCargosSelecionados, setIdsCargosSelecionados] = useState([]);
+  const [cargosTable, setCargosTable] = useState(cargos)
+
+  const variaveis = {
+    cargos,
+    cargosTable,
+    filtroNome,
+    idsCargosSelecionados
+  }
+
+  const funcoes = {
+    setCargosTable,
+    setIdsCargosSelecionados,
+    setFiltroNome
+  }
+
   return (
     <DashboardLayout avatarLink={usuario.avatar_link} isAdmin={isAdmin}>
       <Head>
@@ -15,6 +36,27 @@ const Cargos = (props) => {
           {`Cargos | Orange Juice`}
         </title>
       </Head>
+
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          py: 8
+        }}
+      >
+        <Container maxWidth={false}>
+          <CargoListToolbar
+            variaveis={variaveis}
+            funcoes={funcoes}
+          />
+          <Box sx={{ mt: 3 }}>
+            <CargoListResults
+              variaveis={variaveis}
+              funcoes={funcoes}
+            />
+          </Box>
+        </Container>
+      </Box>
 
     </DashboardLayout>
   )
@@ -26,7 +68,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     id_usuario: 0,
     cargo: ''
   }
-
+  let cargos = []
   if (!token) {
     return {
       redirect: {
@@ -42,6 +84,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       .then(res => {
         usuario = res.data
       })
+      .catch(error => {
+        console.log("Error -> ", error)
+      })
 
     await axios.get(`http://localhost:8080/usuario/buscar?id_usuario=${usuario.id_usuario}`)
       .then(res => {
@@ -55,12 +100,18 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
           permanent: false,
         }
       }
+    } else {
+      await axios.get(`http://localhost:8080/cargo/listarTodos`)
+      .then(res => {
+        cargos = res.data
+      })
     }
   }
 
   return {
     props: {
-      usuario
+      usuario,
+      cargos
     }
   }
 }
