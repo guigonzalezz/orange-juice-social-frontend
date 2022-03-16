@@ -50,6 +50,7 @@ export const DashboardNavbar = (props) => {
         <Toolbar
           disableGutters
           sx={{
+            background: '#161616',
             minHeight: 64,
             left: 0,
             px: 2

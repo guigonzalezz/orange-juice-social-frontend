@@ -130,6 +130,13 @@ export const theme = createTheme({
         }
       }
     },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          backgroundColor: '#8a8b8c4f'
+        }
+      }
+    },
     MuiTableRow: {
       styleOverrides: {
         root: {

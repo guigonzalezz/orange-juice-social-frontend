@@ -152,172 +152,163 @@ const FormAlteraUsuario = ({ handleClose, cargos, usuario }) => {
   },[formik.values.estado])
 
   return (
-    <Box
-        sx={{
-          alignItems: 'center',
-          display: 'flex',
-          flexGrow: 1,
-        }}
+    <Container
+      maxWidth="sm"
+      sx={{
+        background: '#232323',
+        alignItems: 'center',
+        width: '100%',
+        height: 700,
+        overflowX: 'hidden',
+        overflowY: 'scroll',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        padding: 2,
+        '&::-webkit-scrollbar': {
+          height: '0.4em',
+          width: 8
+        },
+        '&::-webkit-scrollbar-track': {
+          '-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.00)'
+        },
+        '&::-webkit-scrollbar-thumb': {
+          backgroundColor: 'rgba(16,16,16,.9)',
+          borderRadius: 25,
+        },
+      }}
+    >
+      <form onSubmit={formik.handleSubmit}>
+        <Box sx={{ my: 3}}>
+          <Typography
+            color='white'
+            variant="h6"
+          >
+            Alterar Usuario
+          </Typography>
+          <Typography
+            color="textSecondary"
+            gutterBottom
+            variant="body2"
+          >
+            Digite as seguintes informacoes para dar continuidade na alteracao do usuario.
+          </Typography>
+        </Box>
+        <TextField
+          error={Boolean(formik.touched.nome && formik.errors.nome)}
+          fullWidth
+          helperText={formik.touched.nome && formik.errors.nome}
+          label="Nome completo"
+          margin="normal"
+          name="nome"
+          onBlur={formik.handleBlur}
+          onChange={formik.handleChange}
+          value={formik.values.nome}
+          variant="outlined"
+        />
+        <TextField
+          error={Boolean(formik.touched.email_pessoal && formik.errors.email_pessoal)}
+          fullWidth
+          helperText={formik.touched.email_pessoal && formik.errors.email_pessoal}
+          label="Email pessoal"
+          margin="normal"
+          name="email_pessoal"
+          onBlur={formik.handleBlur}
+          onChange={formik.handleChange}
+          type="email"
+          value={formik.values.email_pessoal}
+          variant="outlined"
+        />
+        <TextField
+          select
+          error={Boolean(formik.touched.cargo && formik.errors.cargo)}
+          fullWidth
+          helperText={formik.touched.cargo && formik.errors.cargo}
+          label="Cargo"
+          margin="normal"
+          name="cargo"
+          onBlur={formik.handleBlur}
+          onChange={formik.handleChange}
+          value={formik.values.cargo}
+          variant="outlined"
+          children={cargoOptions}
+        />
 
-      >
-        <Container
-          maxWidth="sm"
-          sx={{
-            background: '#232323',
-            alignItems: 'center',
-            width: '100%',
-            height: 700,
-            overflowX: 'hidden',
-            overflowY: 'scroll',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'flex-start',
-            padding: 2,
-            '&::-webkit-scrollbar': {
-              height: '0.4em',
-              width: 8
-            },
-            '&::-webkit-scrollbar-track': {
-              '-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.00)'
-            },
-            '&::-webkit-scrollbar-thumb': {
-              backgroundColor: 'rgba(16,16,16,.9)',
-              borderRadius: 25,
-            },
+        <TextField
+          error={Boolean(formik.touched.contato && formik.errors.contato)}
+          fullWidth
+          helperText={formik.touched.contato && formik.errors.contato}
+          label="Contato"
+          margin="normal"
+          name="contato"
+          onBlur={formik.handleBlur}
+          onChange={formik.handleChange}
+          value={formik.values.contato}
+          variant="outlined"
+        />
+
+        <TextField
+          error={Boolean(formik.touched.nascimento && formik.errors.nascimento)}
+          fullWidth
+          helperText={formik.touched.nascimento && formik.errors.nascimento}
+          label="Data de nascimento"
+          margin="normal"
+          name="nascimento"
+          type="date"
+          onBlur={formik.handleBlur}
+          onChange={formik.handleChange}
+          value={formik.values.nascimento}
+          variant="outlined"
+          InputLabelProps={{
+            shrink: true,
           }}
-        >
-          <form onSubmit={formik.handleSubmit}>
-            <Box sx={{ my: 3}}>
-              <Typography
-                color='white'
-                variant="h6"
-              >
-                Alterar Usuario
-              </Typography>
-              <Typography
-                color="textSecondary"
-                gutterBottom
-                variant="body2"
-              >
-                Digite as seguintes informacoes para dar continuidade na alteracao do usuario.
-              </Typography>
-            </Box>
-            <TextField
-              error={Boolean(formik.touched.nome && formik.errors.nome)}
-              fullWidth
-              helperText={formik.touched.nome && formik.errors.nome}
-              label="Nome completo"
-              margin="normal"
-              name="nome"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.nome}
-              variant="outlined"
-            />
-            <TextField
-              error={Boolean(formik.touched.email_pessoal && formik.errors.email_pessoal)}
-              fullWidth
-              helperText={formik.touched.email_pessoal && formik.errors.email_pessoal}
-              label="Email pessoal"
-              margin="normal"
-              name="email_pessoal"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              type="email"
-              value={formik.values.email_pessoal}
-              variant="outlined"
-            />
-            <TextField
-              select
-              error={Boolean(formik.touched.cargo && formik.errors.cargo)}
-              fullWidth
-              helperText={formik.touched.cargo && formik.errors.cargo}
-              label="Cargo"
-              margin="normal"
-              name="cargo"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.cargo}
-              variant="outlined"
-              children={cargoOptions}
-            />
+        />
 
-            <TextField
-              error={Boolean(formik.touched.contato && formik.errors.contato)}
-              fullWidth
-              helperText={formik.touched.contato && formik.errors.contato}
-              label="Contato"
-              margin="normal"
-              name="contato"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.contato}
-              variant="outlined"
-            />
+        <TextField
+          select
+          error={Boolean(formik.touched.estado && formik.errors.estado)}
+          fullWidth
+          helperText={formik.touched.estado && formik.errors.estado}
+          label="Estado"
+          margin="normal"
+          name="estado"
+          onBlur={formik.handleBlur}
+          onChange={formik.handleChange}
+          value={formik.values.estado}
+          variant="outlined"
+          children={estadoOptions}
+        />
 
-            <TextField
-              error={Boolean(formik.touched.nascimento && formik.errors.nascimento)}
-              fullWidth
-              helperText={formik.touched.nascimento && formik.errors.nascimento}
-              label="Data de nascimento"
-              margin="normal"
-              name="nascimento"
-              type="date"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.nascimento}
-              variant="outlined"
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-
-            <TextField
-              select
-              error={Boolean(formik.touched.estado && formik.errors.estado)}
-              fullWidth
-              helperText={formik.touched.estado && formik.errors.estado}
-              label="Estado"
-              margin="normal"
-              name="estado"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.estado}
-              variant="outlined"
-              children={estadoOptions}
-            />
-
-            <TextField
-              select
-              error={Boolean(formik.touched.cidade && formik.errors.cidade)}
-              fullWidth
-              helperText={formik.touched.cidade && formik.errors.cidade}
-              label="Cidade"
-              margin="normal"
-              name="cidade"
-              onBlur={formik.handleBlur}
-              onChange={formik.handleChange}
-              value={formik.values.cidade}
-              variant="outlined"
-              children={cidadeOptions}
-            />
+        <TextField
+          select
+          error={Boolean(formik.touched.cidade && formik.errors.cidade)}
+          fullWidth
+          helperText={formik.touched.cidade && formik.errors.cidade}
+          label="Cidade"
+          margin="normal"
+          name="cidade"
+          onBlur={formik.handleBlur}
+          onChange={formik.handleChange}
+          value={formik.values.cidade}
+          variant="outlined"
+          children={cidadeOptions}
+        />
 
 
-            <Box sx={{ py: 2 }}>
-              <Button
-                color="primary"
-                disabled={formik.isSubmitting}
-                fullWidth
-                size="large"
-                type="submit"
-                variant="contained"
-              >
-                Alterar
-              </Button>
-            </Box>
-          </form>
-        </Container>
-      </Box>
+        <Box sx={{ py: 2 }}>
+          <Button
+            color="primary"
+            disabled={formik.isSubmitting}
+            fullWidth
+            size="large"
+            type="submit"
+            variant="contained"
+          >
+            Alterar
+          </Button>
+        </Box>
+      </form>
+    </Container>
   );
 };
 

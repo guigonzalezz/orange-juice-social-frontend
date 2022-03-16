@@ -6,8 +6,8 @@ import { parseCookies } from 'nookies';
 import { DashboardLayout } from '../../components/dashboard-layout';
 import { Box, Container } from '@mui/material';
 
-import { UsuarioListResults } from '../../components/usuario/usuario-list-results';
-import { UsuarioListToolbar } from '../../components/usuario/usuario-list-toolbar';
+import { UsuarioListResults } from '../../components/tabela/usuario-list-results';
+import { UsuarioListToolbar } from '../../components/tabela/usuario-list-toolbar';
 import { useState } from 'react';
 
 const Usuarios = ({ usuario, usuarios, cargos }) => {

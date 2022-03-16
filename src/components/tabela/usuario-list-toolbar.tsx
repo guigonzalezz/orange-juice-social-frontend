@@ -204,7 +204,7 @@ export const UsuarioListToolbar = (props) => {
         >
           Usuarios
         </Typography>
-        <Box sx={{ m: 1 }}>
+        <Box sx={{ m: 1, display: 'flex', justifyContent: 'space-between', }}>
           <Button
             color="warning"
             variant="contained"

@@ -129,12 +129,13 @@ export const DashboardSidebar = (props) => {
       sx={{
         display: 'flex',
         flexDirection: 'column',
-        height: '100%'
+        height: '100%',
+        background: '#161616',
       }}
     >
       <Box sx={{ p: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <MenuIcon fontSize="small" />
-        <Typography>Menu</Typography>
+        <MenuIcon sx={{color: '#fff'}} fontSize="small" />
+        <Typography color='#fff'>Menu</Typography>
       </Box>
       <Divider sx={{ borderColor: '#8a8b8c4f', mb: 3 }} />
       <Box sx={{ flexGrow: 1 }}>
@@ -164,6 +165,7 @@ export const DashboardSidebar = (props) => {
             borderRightWidth: 1
           }
         }}
+        sx={{borderColor: '#8a8b8c4f'}}
         variant="permanent"
       >
         {content}
@@ -181,7 +183,6 @@ export const DashboardSidebar = (props) => {
           backgroundColor: '#161616',
           color: '#FFFFFF',
           width: 200,
-
         }
       }}
       sx={{ zIndex: (theme) => theme.zIndex.appBar + 100 }}
