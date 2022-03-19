@@ -22,7 +22,7 @@ const similarCustomSA = {
 }
 
 
-const FormAlteraUsuario = ({ handleClose, cargo }) => {
+const FormAlteraCargo = ({ handleClose, cargo }) => {
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
@@ -142,4 +142,4 @@ const FormAlteraUsuario = ({ handleClose, cargo }) => {
   );
 };
 
-export default FormAlteraUsuario;
+export default FormAlteraCargo;
