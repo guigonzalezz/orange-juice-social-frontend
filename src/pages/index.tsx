@@ -84,7 +84,7 @@ const Login = () => {
     const email = formik.values.email
     if(email) {
       let code = ""
-      await axios.get(`http://localhost:8080/usuario/recuperacao_senha?email=${email}`)
+      await axios.get(`http://localhost:8080/usuario/recuperacaoSenha?email=${email}`)
         .then(res => {
           code = res.data
         })
@@ -106,7 +106,7 @@ const Login = () => {
           inputAttributes: similarInputSA
         })
 
-        await axios.patch("http://localhost:8080/usuario/alterar_senha_nova", {
+        await axios.patch("http://localhost:8080/usuario/alterarSenha_nova", {
           email,
           senha_nova: novaSenha
         }, {}).then(res=>{
