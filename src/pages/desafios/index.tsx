@@ -2,54 +2,81 @@ import Head from 'next/head';
 import axios from 'axios';
 import { GetServerSideProps } from 'next';
 import { parseCookies } from 'nookies';
-import { useContext, useEffect } from 'react';
-import { AuthContext } from '../../contexts/AuthContext';
 
 import { DashboardLayout } from '../../components/dashboard-layout';
-import { UsuarioContext } from '../../contexts/UsuarioContext';
+import { Box, Container } from '@mui/material';
 
+import { DesafioListResults } from '../../components/tabela/desafio-list-results';
+import { DesafioListToolbar } from '../../components/tabela/desafio-list-toolbar';
+import { useState } from 'react';
 
+const Desafios = ({ usuario, desafios }) => {
+  const isAdmin = usuario.cargo == 'admin'
+  const [filtroNome, setFiltroNome] = useState('')
+  const [desafiosTable, setDesafiosTable] = useState(desafios)
 
-const Perfil = (props) => {
-  const { logout } = useContext(AuthContext)
-  const { setUser } = useContext(UsuarioContext)
-  const {
-    usuario,
-    noticias,
-    blogs,
-    eventos
-  } = props
-  const isAdmin = usuario.cargo == 'admin'//exibe opcoes do menu diferente
+  const [handleAlteraDesafioInfo, setHandleAlteraDesafioInfo] = useState({});
+  const [openEnviaFeedback, setOpenEnviaFeedback] = useState(false);
+  const handleEnviaFeedbackOpen= () => { setOpenEnviaFeedback(true) }
+  const handleEnviaFeedbackClose = () => { setOpenEnviaFeedback(false) }
 
-  useEffect(()=>{
-    setUser(usuario)
-  },[])
+  const variaveis = {
+    desafios,
+    desafiosTable,
+    filtroNome,
+    openEnviaFeedback,
+    handleAlteraDesafioInfo
+  }
 
-  const logoutUser = async  () => {
-    await logout();
+  const funcoes = {
+    setDesafiosTable,
+    setFiltroNome,
+    setHandleAlteraDesafioInfo,
+    setOpenEnviaFeedback,
+    handleEnviaFeedbackOpen,
+    handleEnviaFeedbackClose,
   }
 
   return (
-    <DashboardLayout avatarLink={usuario.avatar_link}>
+    <DashboardLayout avatarLink={usuario.avatar_link} isAdmin={isAdmin}>
       <Head>
         <title>
-          {`Perfil | ${usuario.perfil.nome}`}
+          {`Desafios | Orange Juice`}
         </title>
       </Head>
+
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          py: 8
+        }}
+      >
+        <Container maxWidth={false} >
+          <DesafioListToolbar
+            variaveis={variaveis}
+            funcoes={funcoes}
+          />
+          <Box sx={{ mt: 3 }}>
+            <DesafioListResults
+              variaveis={variaveis}
+              funcoes={funcoes}
+            />
+          </Box>
+        </Container>
+      </Box>
 
     </DashboardLayout>
   )
 }
 
-//Pega o token e valida se esta valido para acessar a tela, apos isso, busca informacoes
-//do usuario, se nao for admin, noa deixa entrar na tela.
-//Isso sera feito nas telas que nao tem acesso para aquele usuario
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { ['nextauth.token']: token } = parseCookies(ctx)
   let usuario = {
-    id_usuario: 0
+    id_usuario: 0,
+    cargo: ''
   }
-
+  let desafios = []
   if (!token) {
     return {
       redirect: {
@@ -65,19 +92,36 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       .then(res => {
         usuario = res.data
       })
+      .catch(error => {
+        console.log("Error -> ", error)
+      })
 
     await axios.get(`http://localhost:8080/usuario/buscar?id_usuario=${usuario.id_usuario}`)
       .then(res => {
         usuario = res.data
       })
 
+    if(usuario.cargo != 'admin'){
+      return {
+        redirect: {
+          destination: '/home',
+          permanent: false,
+        }
+      }
+    } else {
+      await axios.get(`http://localhost:8080/usuario/desafios`)
+      .then(res => {
+        desafios = res.data
+      })
+    }
   }
 
   return {
     props: {
-      usuario
+      usuario,
+      desafios
     }
   }
 }
 
-export default Perfil
+export default Desafios
