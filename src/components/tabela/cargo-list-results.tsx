@@ -39,7 +39,7 @@ export const CargoListResults = ({ variaveis, funcoes, ...rest }) => {
 
   useEffect(()=>{
     if(filtroNome == '') setCargosTable(cargos)
-    else setCargosTable(cargosTable.filter(cargo => cargo.nome.includes(filtroNome)))
+    else setCargosTable(cargos.filter(cargo => cargo.nome.includes(filtroNome)))
   },[filtroNome])
 
   const handleSelectAll = (event) => {

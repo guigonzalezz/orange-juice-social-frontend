@@ -33,7 +33,7 @@ export const UsuarioListResults = ({ variaveis, funcoes, ...rest }) => {
 
   useEffect(()=>{
     if(filtroNome == '') setUsuariosTable(usuarios)
-    else setUsuariosTable(usuariosTable.filter(usuario => usuario.perfil.nome.includes(filtroNome)))
+    else setUsuariosTable(usuarios.filter(usuario => usuario.perfil.nome.includes(filtroNome)))
   },[filtroNome])
 
   const handleSelectAll = (event) => {
