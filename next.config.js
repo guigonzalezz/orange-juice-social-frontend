@@ -3,4 +3,5 @@ module.exports = {
   env: {
     HEROKU_OJ_API_DEV_URL: process.env.HEROKU_OJ_API_DEV_URL,
   },
+  "presets": ["next/babel"]
 }
