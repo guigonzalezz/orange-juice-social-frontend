@@ -6,8 +6,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useContext, useState } from 'react';
 import { Search, SearchIconWrapper, StyledInputBase } from './shared/SearchBoxMenu';
 import { AuthContext } from '../contexts/AuthContext';
-import { AccountCircle, Logout, Notifications } from '@mui/icons-material';
+import { AccountCircle, Logout, Notifications, Person } from '@mui/icons-material';
 import { StyledMenuAnchor } from './shared/StyledAnchorMenu';
+import { useRouter } from 'next/router';
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }: any) => ({
   backgroundColor: "#161616",//theme.palette.background.paper,
@@ -15,9 +16,9 @@ const DashboardNavbarRoot = styled(AppBar)(({ theme }: any) => ({
 }));
 
 export const DashboardNavbar = (props) => {
-  const { onSidebarOpen, avatarLink, ...other } = props;
+  const { onSidebarOpen, avatarLink, usuarioLogadoEmail, ...other  } = props;
   const { logout } = useContext(AuthContext)
-
+  const router = useRouter();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleAvatarClick = (event) => {
@@ -29,6 +30,14 @@ export const DashboardNavbar = (props) => {
 
   const logoutUser = async  () => {
     await logout();
+  }
+
+  const handlePefil = () => {
+    router.push(`/perfil/${usuarioLogadoEmail}`)
+  }
+
+  const handleHome = () => {
+    router.push(`/home`)
   }
 
   return (
@@ -64,7 +73,7 @@ export const DashboardNavbar = (props) => {
             <MenuIcon fontSize="small" />
           </IconButton>
           <Tooltip title="Home">
-            <IconButton sx={{ ml: 1 }}>
+            <IconButton sx={{ ml: 1 }} onClick={handleHome}>
               <img
                 width={60}
                 height={60}
@@ -128,6 +137,12 @@ export const DashboardNavbar = (props) => {
             'aria-labelledby': 'basic-button',
           }}
         >
+          <MenuItem onClick={handlePefil}>
+            <ListItemIcon>
+              <Person fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>Perfil</ListItemText>
+          </MenuItem>
           <MenuItem onClick={logoutUser}>
             <ListItemIcon>
               <Logout fontSize="small" />
@@ -138,9 +153,4 @@ export const DashboardNavbar = (props) => {
       </DashboardNavbarRoot>
     </>
   );
-};
-
-DashboardNavbar.propTypes = {
-  onSidebarOpen: PropTypes.func,
-  avatarLink: PropTypes.string
 };

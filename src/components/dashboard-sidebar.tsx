@@ -58,7 +58,7 @@ const items = [
     component: (<NavItem
       key='Desafios'
       icon={<Task fontSize="small" />}
-      href='/desafios'
+      href='/desafios_usuarios'
       title='Desafios'
     />)
   },
@@ -76,7 +76,7 @@ const items = [
     component: (<NavItem
       key='Quiz'
       icon={<Quiz fontSize="small" />}
-      href='/quiz'
+      href='/quiz_usuarios'
       title='Quiz'
     />)
   },

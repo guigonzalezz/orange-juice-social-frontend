@@ -4,6 +4,7 @@ import { GetServerSideProps } from 'next';
 import { parseCookies } from 'nookies';
 import { useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
+import { Box, Typography } from '@mui/material';
 
 import { DashboardLayout } from '../../components/dashboard-layout';
 
@@ -17,19 +18,34 @@ const Relatorios = (props) => {
     blogs,
     eventos
   } = props
-  const isAdmin = usuario.cargo == 'admin'//exibe opcoes do menu diferente
-
-  const logoutUser = async  () => {
-    await logout();
-  }
 
   return (
-    <DashboardLayout avatarLink={usuario.avatar_link}>
+    <DashboardLayout
+      avatarLink={usuario.avatar_link}
+      isAdmin={usuario.cargo == 'admin'}
+      usuarioLogadoEmail={usuario.perfil.email_empresarial}
+    >
       <Head>
         <title>
-          {`Perfil | ${usuario.perfil.nome}`}
+          {`Relatorios | Orange Juice`}
         </title>
       </Head>
+
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          py: 4,
+          display: 'flex',
+          justifyContent: 'center',
+          textAlign: 'center',
+          flexDirection: 'column'
+        }}
+      >
+        <Typography>
+          Em construção...
+        </Typography>
+      </Box>
 
     </DashboardLayout>
   )

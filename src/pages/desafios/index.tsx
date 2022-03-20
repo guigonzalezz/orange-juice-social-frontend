@@ -40,6 +40,7 @@ const Desafios = ({ usuario, desafios }) => {
     <DashboardLayout
       avatarLink={usuario.avatar_link}
       isAdmin={usuario.cargo == 'admin'}
+      usuarioLogadoEmail={usuario.perfil.email_empresarial}
     >
       <Head>
         <title>

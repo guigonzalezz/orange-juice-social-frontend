@@ -4,10 +4,8 @@ import { GetServerSideProps } from 'next';
 import { parseCookies } from 'nookies';
 
 import { DashboardLayout } from '../../components/dashboard-layout';
-import { Box, Container } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
-import { UsuarioListResults } from '../../components/tabela/usuario-list-results';
-import { UsuarioListToolbar } from '../../components/tabela/usuario-list-toolbar';
 import { useState } from 'react';
 
 const Quizzes = ({ usuario, usuarios, cargos }) => {
@@ -33,10 +31,11 @@ const Quizzes = ({ usuario, usuarios, cargos }) => {
     <DashboardLayout
       avatarLink={usuario.avatar_link}
       isAdmin={usuario.cargo == 'admin'}
+      usuarioLogadoEmail={usuario.perfil.email_empresarial}
     >
       <Head>
         <title>
-          {`Usuarios | Orange Juice`}
+          {`Quiz | Orange Juice`}
         </title>
       </Head>
 
@@ -44,21 +43,16 @@ const Quizzes = ({ usuario, usuarios, cargos }) => {
         component="main"
         sx={{
           flexGrow: 1,
-          py: 8
+          py: 4,
+          display: 'flex',
+          justifyContent: 'center',
+          textAlign: 'center',
+          flexDirection: 'column'
         }}
       >
-        <Container maxWidth={false}>
-          <UsuarioListToolbar
-            variaveis={variaveis}
-            funcoes={funcoes}
-          />
-          <Box sx={{ mt: 3 }}>
-            <UsuarioListResults
-              variaveis={variaveis}
-              funcoes={funcoes}
-            />
-          </Box>
-        </Container>
+        <Typography>
+          Em construção...
+        </Typography>
       </Box>
 
     </DashboardLayout>

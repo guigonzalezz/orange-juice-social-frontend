@@ -15,7 +15,7 @@ const DashboardLayoutRoot = styled('div')(({ theme }) => ({
 }));
 
 export const DashboardLayout = (props) => {
-  const { children, avatarLink, isAdmin } = props;
+  const { children, avatarLink, isAdmin, usuarioLogadoEmail  } = props;
   const [isSidebarOpen, setSidebarOpen] = useState(true);
 
   return (
@@ -35,6 +35,7 @@ export const DashboardLayout = (props) => {
       <DashboardNavbar
         onSidebarOpen={() => setSidebarOpen(true)}
         avatarLink={avatarLink}
+        usuarioLogadoEmail={usuarioLogadoEmail}
       />
       <DashboardSidebar
         onClose={() => setSidebarOpen(false)}

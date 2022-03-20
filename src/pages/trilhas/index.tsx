@@ -4,6 +4,7 @@ import { GetServerSideProps } from 'next';
 import { parseCookies } from 'nookies';
 import { useContext, useEffect } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
+import { Box, Typography } from '@mui/material';
 
 import { DashboardLayout } from '../../components/dashboard-layout';
 
@@ -24,12 +25,32 @@ const Perfil = (props) => {
   }
 
   return (
-    <DashboardLayout avatarLink={usuario.avatar_link}>
+    <DashboardLayout
+      avatarLink={usuario.avatar_link}
+      isAdmin={false}
+      usuarioLogadoEmail={usuario.perfil.email_empresarial}
+    >
       <Head>
         <title>
-          {`Perfil | ${usuario.perfil.nome}`}
+          {`Trilhas | Orange Juice`}
         </title>
       </Head>
+
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          py: 4,
+          display: 'flex',
+          justifyContent: 'center',
+          textAlign: 'center',
+          flexDirection: 'column'
+        }}
+      >
+        <Typography>
+          Em construção...
+        </Typography>
+      </Box>
 
     </DashboardLayout>
   )
