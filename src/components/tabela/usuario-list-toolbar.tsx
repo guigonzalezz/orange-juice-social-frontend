@@ -99,7 +99,7 @@ export const UsuarioListToolbar = (props) => {
         denyButtonText: `Cancelar`,
       }).then(async (result) => {
         if (result.isConfirmed) {
-          await axios.delete(`${process.env.HEROKU_OJ_API_DEV_URL}/usuario/deletarVarios?ids=${ids.join(',')}`)
+          await axios.delete(`${process.env.HEROKU_OJ_API_DEV_URL}/usuario/deletar_varios?ids=${ids.join(',')}`)
           .then(async res => {
             Swal.fire({
               ...similarCustomSA,
@@ -147,7 +147,7 @@ export const UsuarioListToolbar = (props) => {
       })
     }
     else if(idsUsuariosSelecionados.length == 1) {
-      await axios.get(`${process.env.HEROKU_OJ_API_DEV_URL}/usuario/buscarPerfil?id_usuario=${idsUsuariosSelecionados[0]}`)
+      await axios.get(`${process.env.HEROKU_OJ_API_DEV_URL}/usuario/buscar_perfil?id_usuario=${idsUsuariosSelecionados[0]}`)
         .then(async res => {
           setHandleAlteraUsuarioInfo({
             nome: res.data.nome,
@@ -157,7 +157,7 @@ export const UsuarioListToolbar = (props) => {
             cidade: res.data.cidade,
             estado: res.data.estado,
             id_usuario: res.data.id_usuario,
-            id_cargo: (await axios.get(`${process.env.HEROKU_OJ_API_DEV_URL}/usuario/buscarCargo?id_usuario=${idsUsuariosSelecionados[0]}`)).data.id_cargo
+            id_cargo: (await axios.get(`${process.env.HEROKU_OJ_API_DEV_URL}/usuario/buscar_cargo?id_usuario=${idsUsuariosSelecionados[0]}`)).data.id_cargo
           })
         })
       setOpenAltera(true);

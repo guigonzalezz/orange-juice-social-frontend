@@ -103,7 +103,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         }
       }
     } else {
-      await axios.get(`${process.env.HEROKU_OJ_API_DEV_URL}/cargo/listarTodos`)
+      await axios.get(`${process.env.HEROKU_OJ_API_DEV_URL}/cargo/listar_todos`)
       .then(res => {
         cargos = res.data
       })

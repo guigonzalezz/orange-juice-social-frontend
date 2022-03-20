@@ -89,7 +89,7 @@ export const UsuarioListResults = ({ variaveis, funcoes, ...rest }) => {
   };
 
   const handleStatusUsuario = async (id:any) => {
-    await axios.patch(`${process.env.HEROKU_OJ_API_DEV_URL}/usuario/toggleAtivoInativo?id_usuario=${id}`)
+    await axios.patch(`${process.env.HEROKU_OJ_API_DEV_URL}/usuario/toggle_ativo_inativo?id_usuario=${id}`)
       .then(async res=> {
         if(res.data) {
           await axios.get(`${process.env.HEROKU_OJ_API_DEV_URL}/usuario/listar`)

@@ -61,7 +61,7 @@ export const CargoListToolbar = (props) => {
         denyButtonText: `Cancelar`,
       }).then(async (result) => {
         if (result.isConfirmed) {
-          await axios.get(`${process.env.HEROKU_OJ_API_DEV_URL}/usuario/verificaCargoEmUso?id_cargo=${ids[0]}`)
+          await axios.get(`${process.env.HEROKU_OJ_API_DEV_URL}/usuario/verifica_cargo_em_uso?id_cargo=${ids[0]}`)
             .then(async res => {
               if(res.status == 400) {
                 Swal.fire({
@@ -80,7 +80,7 @@ export const CargoListToolbar = (props) => {
                   showConfirmButton: false,
                   timer: 1500
                 })
-                await axios.get(`${process.env.HEROKU_OJ_API_DEV_URL}/cargo/listarTodos`)
+                await axios.get(`${process.env.HEROKU_OJ_API_DEV_URL}/cargo/listar_todos`)
                   .then(res => {
                     setCargosTable(res.data)
                     forceReload()
@@ -131,7 +131,7 @@ export const CargoListToolbar = (props) => {
       })
     }
     else if(idsCargosSelecionados.length == 1) {
-      await axios.get(`${process.env.HEROKU_OJ_API_DEV_URL}/cargo/buscarId?id_cargo=${idsCargosSelecionados[0]}`)
+      await axios.get(`${process.env.HEROKU_OJ_API_DEV_URL}/cargo/buscar_id?id_cargo=${idsCargosSelecionados[0]}`)
         .then(async res => {
           setHandleAlteraCargoInfo({
             nome: res.data.nome,
