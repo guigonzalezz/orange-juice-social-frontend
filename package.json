@@ -6,11 +6,12 @@
   "scripts": {
     "dev": "next -p 3001",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p $PORT",
     "export": "next export",
     "lint": "next lint",
     "lint-fix": "next lint --fix"
   },
+  "cacheDirectories": [".next/cache"],
   "dependencies": {
     "@emotion/cache": "^11.5.0",
     "@emotion/react": "^11.5.0",
