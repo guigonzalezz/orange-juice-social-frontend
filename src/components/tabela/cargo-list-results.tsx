@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react';
-import PerfectScrollbar from 'react-perfect-scrollbar';
-import { format } from 'date-fns';
 import {
   Box,
   Card,
@@ -9,7 +7,6 @@ import {
   IconButton,
   ListItemIcon,
   ListItemText,
-  Menu,
   MenuItem,
   Table,
   TableBody,
@@ -23,7 +20,6 @@ import { LegendToggle, MoreVert } from '@mui/icons-material';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { StyledMenuAnchor } from '../shared/StyledAnchorMenu'
-import { withStyles } from '@mui/styles';
 
 
 export const CargoListResults = ({ variaveis, funcoes, ...rest }) => {

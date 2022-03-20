@@ -1,16 +1,12 @@
 import PropTypes from 'prop-types';
 import styled from '@emotion/styled';
-import { AppBar, Avatar, Badge, Box, IconButton, ListItemIcon, ListItemText, Menu, MenuItem, Toolbar, Tooltip } from '@mui/material';
+import { AppBar, Avatar, Badge, Box, IconButton, ListItemIcon, ListItemText, MenuItem, Toolbar, Tooltip } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-import { Bell as BellIcon } from '../icons/bell';
-import { UserCircle as UserCircleIcon } from '../icons/user-circle';
-import { Users as UsersIcon } from '../icons/users';
-import { UsuarioContext } from '../contexts/UsuarioContext';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { Search, SearchIconWrapper, StyledInputBase } from './shared/SearchBoxMenu';
 import { AuthContext } from '../contexts/AuthContext';
-import { ContentCopy, Logout } from '@mui/icons-material';
+import { AccountCircle, Logout, Notifications } from '@mui/icons-material';
 import { StyledMenuAnchor } from './shared/StyledAnchorMenu';
 
 const DashboardNavbarRoot = styled(AppBar)(({ theme }: any) => ({
@@ -69,7 +65,13 @@ export const DashboardNavbar = (props) => {
           </IconButton>
           <Tooltip title="Home">
             <IconButton sx={{ ml: 1 }}>
-              <img width={60} height={60} src='/logo_static.svg' alt="logo orange juice" aria-label='logo orange juice'/>
+              <img
+                width={60}
+                height={60}
+                src='/logo_static.svg'
+                alt="logo orange juice"
+                aria-label='logo orange juice'
+              />
             </IconButton>
           </Tooltip>
           <Box sx={{ flexGrow: 1 }} />
@@ -94,7 +96,7 @@ export const DashboardNavbar = (props) => {
                 color="primary"
                 variant="dot"
               >
-                <BellIcon fontSize="small" />
+                <Notifications fontSize="small" />
               </Badge>
             </IconButton>
           </Tooltip>
@@ -111,7 +113,7 @@ export const DashboardNavbar = (props) => {
             }}
             src={avatarLink}
           >
-            <UserCircleIcon fontSize="small" />
+            <AccountCircle fontSize="small" />
           </Avatar>
         </Toolbar>
         <StyledMenuAnchor

@@ -32,7 +32,10 @@ export const DashboardLayout = (props) => {
           {children}
         </Box>
       </DashboardLayoutRoot>
-      <DashboardNavbar onSidebarOpen={() => setSidebarOpen(true)} avatarLink={avatarLink} />
+      <DashboardNavbar
+        onSidebarOpen={() => setSidebarOpen(true)}
+        avatarLink={avatarLink}
+      />
       <DashboardSidebar
         onClose={() => setSidebarOpen(false)}
         open={isSidebarOpen}

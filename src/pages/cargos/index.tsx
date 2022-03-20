@@ -11,7 +11,6 @@ import { CargoListToolbar } from '../../components/tabela/cargo-list-toolbar';
 import { useState } from 'react';
 
 const Cargos = ({ usuario, cargos }) => {
-  const isAdmin = usuario.cargo == 'admin'
   const [filtroNome, setFiltroNome] = useState('')
   const [idsCargosSelecionados, setIdsCargosSelecionados] = useState([]);
   const [cargosTable, setCargosTable] = useState(cargos)
@@ -30,7 +29,10 @@ const Cargos = ({ usuario, cargos }) => {
   }
 
   return (
-    <DashboardLayout avatarLink={usuario.avatar_link} isAdmin={isAdmin}>
+    <DashboardLayout
+      avatarLink={usuario.avatar_link}
+      isAdmin={usuario.cargo == 'admin'}
+    >
       <Head>
         <title>
           {`Cargos | Orange Juice`}

@@ -1,6 +1,5 @@
-import { createContext, useEffect, useState } from "react";
-import { setCookie, parseCookies, destroyCookie } from 'nookies'
-import Router from 'next/router'
+import { createContext, useState } from "react";
+import { parseCookies } from 'nookies'
 
 import axios from "axios";
 

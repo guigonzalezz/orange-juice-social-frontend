@@ -1,13 +1,11 @@
 import Head from 'next/head';
-import NextLink from 'next/link';
-import { useRouter } from 'next/router';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Swal from 'sweetalert2'
 import { Box, Button, Container, TextField, Typography, Snackbar } from '@mui/material';
-import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import MuiAlert from '@mui/material/Alert';
 
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import axios from 'axios';
 import { GetServerSideProps } from 'next';
@@ -164,7 +162,10 @@ const Login = () => {
           minHeight: '100%',
         }}
       >
-        <Container sx={{ width: 400, backgroundColor: '#282828' }} maxWidth="sm">
+        <Container
+          sx={{ width: 400, backgroundColor: '#282828' }}
+          maxWidth="sm"
+        >
           <form onSubmit={formik.handleSubmit}>
             <Box sx={{ my: 3, display: 'flex', justifyContent: 'space-between'}}>
               <Box>
@@ -182,7 +183,13 @@ const Login = () => {
                   Torne-se o protagonista da sua história.
                 </Typography>
               </Box>
-              <img width={80} height={80} src='/logo_static.svg' alt="logo orange juice" aria-label='logo orange juice'/>
+              <img
+                width={80}
+                height={80}
+                src='/logo_static.svg'
+                alt="logo orange juice"
+                aria-label='logo orange juice'
+              />
             </Box>
 
             <TextField
@@ -226,7 +233,10 @@ const Login = () => {
             </Box>
           </form>
           <Box sx={{ mb: 3, cursor: 'pointer'}}>
-            <Typography onClick={()=>{handleForgotPassword()}} color="text.secondary">
+            <Typography
+              onClick={()=>{handleForgotPassword()}}
+              color="text.secondary"
+            >
               Esqueceu sua senha?
             </Typography>
           </Box>
@@ -240,11 +250,26 @@ const Login = () => {
           justifyContent: 'center',
           cursor: 'pointer',
         }}>
-          <img src='/logo-fcamara.png' alt="logo fcamara" aria-label='logo fcamara'/>
+          <img
+            src='/logo-fcamara.png'
+            alt="logo fcamara"
+            aria-label='logo fcamara'
+          />
         </Container>
       </Box>
-      <Snackbar open={popupError} autoHideDuration={3000} onClose={handleCloseError} anchorOrigin={{ vertical:'top', horizontal:'center'}}>
-        <MuiAlert elevation={6} variant="filled" onClose={handleCloseError} severity="error" sx={{ width: 300 }} >
+      <Snackbar
+        open={popupError}
+        autoHideDuration={3000}
+        onClose={handleCloseError}
+        anchorOrigin={{ vertical:'top', horizontal:'center'}}
+      >
+        <MuiAlert
+          elevation={6}
+          variant="filled"
+          onClose={handleCloseError}
+          severity="error"
+          sx={{ width: 300 }}
+        >
           {popupMensagem}
         </MuiAlert>
       </Snackbar>

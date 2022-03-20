@@ -19,7 +19,6 @@ const Perfil = (props) => {
     blogs,
     eventos
   } = props
-  const isAdmin = usuario.cargo == 'admin'//exibe opcoes do menu diferente
 
   useEffect(()=>{
     setUser(usuario)
@@ -30,7 +29,10 @@ const Perfil = (props) => {
   }
 
   return (
-    <DashboardLayout avatarLink={usuario.avatar_link}>
+    <DashboardLayout
+      avatarLink={usuario.avatar_link}
+      isAdmin={usuario.cargo == 'admin'}
+    >
       <Head>
         <title>
           {`Perfil | ${usuario.perfil.nome}`}

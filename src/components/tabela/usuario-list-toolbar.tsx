@@ -5,8 +5,7 @@ import {
   InputAdornment,
   SvgIcon, Typography
 } from '@mui/material';
-import { Search as SearchIcon } from '../../icons/search';
-import { Add, Delete, ManageAccounts } from '@mui/icons-material';
+import { Add, Delete, ManageAccounts, Search } from '@mui/icons-material';
 import Swal from 'sweetalert2'
 import axios from 'axios';
 import { useRouter } from 'next/router';
@@ -236,7 +235,7 @@ export const UsuarioListToolbar = (props) => {
                     color="action"
                     fontSize="small"
                   >
-                    <SearchIcon />
+                    <Search />
                   </SvgIcon>
                 </InputAdornment>
               )

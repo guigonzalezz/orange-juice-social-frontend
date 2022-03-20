@@ -1,10 +1,10 @@
+import { Search } from '@mui/icons-material';
 import {
   Box,
   TextField,
   InputAdornment,
   SvgIcon, Typography
 } from '@mui/material';
-import { Search as SearchIcon } from '../../icons/search';
 import ModalEnviaFeedbackDesafio from '../modal/modalEnviaFeedbackDesafio';
 
 export const DesafioListToolbar = (props) => {
@@ -40,7 +40,7 @@ export const DesafioListToolbar = (props) => {
                     color="action"
                     fontSize="small"
                   >
-                    <SearchIcon />
+                    <Search />
                   </SvgIcon>
                 </InputAdornment>
               )

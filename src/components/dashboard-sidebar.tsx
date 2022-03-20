@@ -1,13 +1,11 @@
 import { useEffect } from 'react';
-import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import PropTypes from 'prop-types';
-import { Box, Button, Divider, Drawer, Typography, useMediaQuery } from '@mui/material';
-import { Users as UsersIcon } from '../icons/users';
+import { Box, Divider, Drawer, Typography, useMediaQuery } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home'
 import { NavItem } from './nav-item';
-import { AssignmentInd, Feed, Quiz, School, Task } from '@mui/icons-material';
+import { AssignmentInd, Feed, Group, Quiz, School, Task } from '@mui/icons-material';
 
 const items = [
   {
@@ -32,7 +30,7 @@ const items = [
     isAdmin: true,
     component: (<NavItem
       key='Usuarios'
-      icon={<UsersIcon fontSize="small" />}
+      icon={<Group fontSize="small" />}
       href='/usuarios'
       title='Usuarios'
     />)
@@ -120,7 +118,6 @@ export const DashboardSidebar = (props) => {
         onClose?.();
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [router.asPath]
   );
 
@@ -134,7 +131,10 @@ export const DashboardSidebar = (props) => {
       }}
     >
       <Box sx={{ p: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <MenuIcon sx={{color: '#fff'}} fontSize="small" />
+        <MenuIcon
+          sx={{color: '#fff'}}
+          fontSize="small"
+        />
         <Typography color='#fff'>Menu</Typography>
       </Box>
       <Divider sx={{ borderColor: '#8a8b8c4f', mb: 3 }} />
@@ -144,7 +144,10 @@ export const DashboardSidebar = (props) => {
 
       <Divider sx={{ borderColor: '#8a8b8c4f' }} />
       <Box sx={{px: 2, py: 3 }}>
-        <Typography color="neutral.500" variant="body2">
+        <Typography
+          color="neutral.500"
+          variant="body2"
+        >
           © 2022 FCamara Formação e Consultoria. Todos os direitos reservados.
         </Typography>
       </Box>

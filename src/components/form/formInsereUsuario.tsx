@@ -138,7 +138,10 @@ const FormInsereUsuario = ({ handleClose, cargos }) => {
   useEffect(() =>{
     setEstadoOptions(
       brasilObject.estados.map((estado, key) => (
-        <MenuItem value={estado.nome} key={key}>
+        <MenuItem
+          value={estado.nome}
+          key={key}
+        >
           {estado.nome}
         </MenuItem >
       ))
@@ -146,7 +149,10 @@ const FormInsereUsuario = ({ handleClose, cargos }) => {
 
     setCargoOptions(
       cargos.map(cargo => (
-        <MenuItem  value={cargo.id_cargo} key={cargo.id_cargo}>
+        <MenuItem
+          value={cargo.id_cargo}
+          key={cargo.id_cargo}
+        >
           {cargo.nome}
         </MenuItem >
       ))
@@ -159,7 +165,10 @@ const FormInsereUsuario = ({ handleClose, cargos }) => {
     if(finded) {
       setCidadeOptions(
         finded.cidades.map((cidade,key) => (
-          <MenuItem value={cidade} key={key}>
+          <MenuItem
+            value={cidade}
+            key={key}
+          >
             {cidade}
           </MenuItem>
         ))

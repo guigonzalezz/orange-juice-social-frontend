@@ -11,7 +11,6 @@ import { UsuarioListToolbar } from '../../components/tabela/usuario-list-toolbar
 import { useState } from 'react';
 
 const Quizzes = ({ usuario, usuarios, cargos }) => {
-  const isAdmin = usuario.cargo == 'admin'
   const [filtroNome, setFiltroNome] = useState('')
   const [idsUsuariosSelecionados, setIdsUsuariosSelecionados] = useState([]);
   const [usuariosTable, setUsuariosTable] = useState(usuarios)
@@ -31,7 +30,10 @@ const Quizzes = ({ usuario, usuarios, cargos }) => {
   }
 
   return (
-    <DashboardLayout avatarLink={usuario.avatar_link} isAdmin={isAdmin}>
+    <DashboardLayout
+      avatarLink={usuario.avatar_link}
+      isAdmin={usuario.cargo == 'admin'}
+    >
       <Head>
         <title>
           {`Usuarios | Orange Juice`}

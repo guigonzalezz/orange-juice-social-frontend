@@ -31,7 +31,10 @@ const Usuarios = ({ usuario, usuarios, cargos }) => {
   }
 
   return (
-    <DashboardLayout avatarLink={usuario.avatar_link} isAdmin={isAdmin}>
+    <DashboardLayout
+      avatarLink={usuario.avatar_link}
+      isAdmin={isAdmin}
+    >
       <Head>
         <title>
           {`Usuarios | Orange Juice`}

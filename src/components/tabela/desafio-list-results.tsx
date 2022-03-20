@@ -3,7 +3,6 @@ import { format } from 'date-fns';
 import {
   Box,
   Card,
-  Checkbox,
   Chip,
   IconButton,
   ListItemIcon,
@@ -18,7 +17,6 @@ import {
   Typography
 } from '@mui/material';
 import { Send, MoreVert } from '@mui/icons-material';
-import axios from 'axios';
 import { StyledMenuAnchor } from '../shared/StyledAnchorMenu'
 
 export const DesafioListResults = ({ variaveis, funcoes, ...rest }) => {

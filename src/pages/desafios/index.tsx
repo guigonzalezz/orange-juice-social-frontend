@@ -11,13 +11,12 @@ import { DesafioListToolbar } from '../../components/tabela/desafio-list-toolbar
 import { useState } from 'react';
 
 const Desafios = ({ usuario, desafios }) => {
-  const isAdmin = usuario.cargo == 'admin'
   const [filtroNome, setFiltroNome] = useState('')
   const [desafiosTable, setDesafiosTable] = useState(desafios)
 
   const [handleAlteraDesafioInfo, setHandleAlteraDesafioInfo] = useState({});
   const [openEnviaFeedback, setOpenEnviaFeedback] = useState(false);
-  const handleEnviaFeedbackOpen= () => { setOpenEnviaFeedback(true) }
+  const handleEnviaFeedbackOpen = () => { setOpenEnviaFeedback(true) }
   const handleEnviaFeedbackClose = () => { setOpenEnviaFeedback(false) }
 
   const variaveis = {
@@ -38,7 +37,10 @@ const Desafios = ({ usuario, desafios }) => {
   }
 
   return (
-    <DashboardLayout avatarLink={usuario.avatar_link} isAdmin={isAdmin}>
+    <DashboardLayout
+      avatarLink={usuario.avatar_link}
+      isAdmin={usuario.cargo == 'admin'}
+    >
       <Head>
         <title>
           {`Desafios | Orange Juice`}
@@ -85,10 +87,12 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       }
     }
   }
-  else{
-    await axios.get(`${process.env.HEROKU_OJ_API_DEV_URL}/auth/usuario`, {headers:{
-      "Authorization": `Bearer ${token}`
-    }})
+  else {
+    await axios.get(`${process.env.HEROKU_OJ_API_DEV_URL}/auth/usuario`, {
+      headers: {
+        "Authorization": `Bearer ${token}`
+      }
+    })
       .then(res => {
         usuario = res.data
       })
@@ -101,7 +105,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         usuario = res.data
       })
 
-    if(usuario.cargo != 'admin'){
+    if (usuario.cargo != 'admin') {
       return {
         redirect: {
           destination: '/home',
@@ -110,9 +114,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       }
     } else {
       await axios.get(`${process.env.HEROKU_OJ_API_DEV_URL}/usuario/desafios`)
-      .then(res => {
-        desafios = res.data
-      })
+        .then(res => {
+          desafios = res.data
+        })
     }
   }
 

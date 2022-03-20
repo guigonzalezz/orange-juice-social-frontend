@@ -5,7 +5,6 @@ import axios from 'axios';
 import { GetServerSideProps } from 'next';
 import { parseCookies } from 'nookies';
 import { useContext, useEffect } from 'react';
-import { AuthContext } from '../../contexts/AuthContext';
 
 import { Box, Container, Grid } from '@mui/material';
 import { DashboardLayout } from '../../components/dashboard-layout';
@@ -25,8 +24,6 @@ const Home = (props) => {
     blogs,
     eventos
   } = props
-  const isAdmin = usuario.cargo == 'admin'//exibe opcoes do menu diferente
-  const theme = useTheme()
 
   useEffect(()=>{
     setUser(usuario)
@@ -34,7 +31,10 @@ const Home = (props) => {
 
 
   return (
-    <DashboardLayout avatarLink={usuario.avatar_link} isAdmin={usuario.cargo == 'admin'}>
+    <DashboardLayout
+      avatarLink={usuario.avatar_link}
+      isAdmin={usuario.cargo == 'admin'}
+    >
       <Head>
         <title>
           Home | Orange Juice
