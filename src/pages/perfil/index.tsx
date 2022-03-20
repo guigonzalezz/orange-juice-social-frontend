@@ -59,14 +59,14 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     }
   }
   else{
-    await axios.get('http://localhost:8080/auth/usuario', {headers:{
+    await axios.get(`${process.env.HEROKU_OJ_API_DEV_URL}/auth/usuario`, {headers:{
       "Authorization": `Bearer ${token}`
     }})
       .then(res => {
         usuario = res.data
       })
 
-    await axios.get(`http://localhost:8080/usuario/buscar?id_usuario=${usuario.id_usuario}`)
+    await axios.get(`${process.env.HEROKU_OJ_API_DEV_URL}/usuario/buscar?id_usuario=${usuario.id_usuario}`)
       .then(res => {
         usuario = res.data
       })

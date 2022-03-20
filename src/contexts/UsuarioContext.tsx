@@ -27,7 +27,7 @@ const recoverUserInformation = async () => {
   const { 'nextauth.token': token } = parseCookies()
   axios.defaults.headers['Authorization'] = `Bearer ${token}`;
   return {
-    user: await axios.get('http://localhost:8080/auth/usuario')
+    user: await axios.get(`${process.env.HEROKU_OJ_API_DEV_URL}/auth/usuario`)
   }
 }
 

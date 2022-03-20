@@ -21,7 +21,7 @@ const recoverUserInformation = async () => {
   const { 'nextauth.token': token } = parseCookies()
   axios.defaults.headers['Authorization'] = `Bearer ${token}`;
   return {
-    user: await axios.get('http://localhost:8080/auth/usuario')
+    user: await axios.get(`${process.env.HEROKU_OJ_API_DEV_URL}/auth/usuario`)
   }
 }
 
@@ -44,7 +44,7 @@ export function AuthProvider({ children }) {
   async function signIn({ email, senha }: SignInData) {
     let token = undefined;
     let message = undefined;
-    await axios.post('http://localhost:8080/auth/login',{ email, senha })
+    await axios.post(`${process.env.HEROKU_OJ_API_DEV_URL}/auth/login`,{ email, senha })
     .then(async res => {
       token = res.data;
     })

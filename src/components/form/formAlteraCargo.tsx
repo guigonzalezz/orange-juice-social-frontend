@@ -35,7 +35,7 @@ const FormAlteraCargo = ({ handleClose, cargo }) => {
         .required('Nome obrigatorio'),
     }),
     onSubmit: async () => {
-      await axios.patch(`http://localhost:8080/cargo/atualizar/${cargo.id_cargo}`,{
+      await axios.patch(`${process.env.HEROKU_OJ_API_DEV_URL}/cargo/atualizar/${cargo.id_cargo}`,{
         nome: formik.values.nome,
       }).then(res => {
         handleClose();

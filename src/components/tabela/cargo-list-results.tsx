@@ -95,10 +95,10 @@ export const CargoListResults = ({ variaveis, funcoes, ...rest }) => {
   };
 
   const handleStatusCargo = async (id:any) => {
-    await axios.patch(`http://localhost:8080/cargo/toggleAtivoInativo?id_cargo=${id}`)
+    await axios.patch(`${process.env.HEROKU_OJ_API_DEV_URL}/cargo/toggleAtivoInativo?id_cargo=${id}`)
       .then(async res=> {
         if(res.data) {
-          await axios.get(`http://localhost:8080/cargo/listarTodos`)
+          await axios.get(`${process.env.HEROKU_OJ_API_DEV_URL}/cargo/listarTodos`)
             .then(res => {
               setCargosTable(res.data)
             })

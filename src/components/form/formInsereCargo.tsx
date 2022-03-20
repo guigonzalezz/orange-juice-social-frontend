@@ -35,7 +35,7 @@ const FormInsereCargo = ({ handleClose }) => {
         .required('Nome obrigatorio'),
     }),
     onSubmit: async () => {
-      await axios.post(`http://localhost:8080/cargo/cadastrar`,{
+      await axios.post(`${process.env.HEROKU_OJ_API_DEV_URL}/cargo/cadastrar`,{
         nome: formik.values.nome,
       }).then(res => {
         if(res.status == 201){

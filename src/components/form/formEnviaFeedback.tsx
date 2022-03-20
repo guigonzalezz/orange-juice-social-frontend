@@ -42,7 +42,7 @@ const FormEnviaFeedback = ({ handleClose, info }) => {
         .required('Feedback obrigatorio')
     }),
     onSubmit: async () => {
-      await axios.post(`http://localhost:8080/usuario/desafio/feedback`,{
+      await axios.post(`${process.env.HEROKU_OJ_API_DEV_URL}/usuario/desafio/feedback`,{
         nota: formik.values.nota,
         feedback: formik.values.feedback,
         id_usuario: info.id_usuario,

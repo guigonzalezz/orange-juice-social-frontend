@@ -84,7 +84,7 @@ const Login = () => {
     const email = formik.values.email
     if(email) {
       let code = ""
-      await axios.get(`http://localhost:8080/usuario/recuperacaoSenha?email=${email}`)
+      await axios.get(`${process.env.HEROKU_OJ_API_DEV_URL}/usuario/recuperacaoSenha?email=${email}`)
         .then(res => {
           code = res.data
         })
@@ -106,7 +106,7 @@ const Login = () => {
           inputAttributes: similarInputSA
         })
 
-        await axios.patch("http://localhost:8080/usuario/alterarSenha_nova", {
+        await axios.patch(`${process.env.HEROKU_OJ_API_DEV_URL}/usuario/alterarSenha_nova`, {
           email,
           senha_nova: novaSenha
         }, {}).then(res=>{

@@ -81,7 +81,7 @@ const FormAlteraUsuario = ({ handleClose, cargos, usuario }) => {
     }),
     onSubmit: async () => {
       formik.values.nascimento = format(new Date(formik.values.nascimento), 'dd/MM/yyyy')
-      await axios.patch(`http://localhost:8080/usuario/atualizarPerfil/${usuario.id_usuario}`,{
+      await axios.patch(`${process.env.HEROKU_OJ_API_DEV_URL}/usuario/atualizarPerfil/${usuario.id_usuario}`,{
         nome: formik.values.nome,
         email: formik.values.email_pessoal,
         data_nasc: formik.values.nascimento,
@@ -91,7 +91,7 @@ const FormAlteraUsuario = ({ handleClose, cargos, usuario }) => {
       }).then(async res => {
         handleClose();
         if(formik.values.cargo != usuario.id_cargo) {
-          await axios.patch(`http://localhost:8080/usuario/atualizarCargo/${usuario.id_usuario}?id_cargo=${formik.values.cargo}`)
+          await axios.patch(`${process.env.HEROKU_OJ_API_DEV_URL}/usuario/atualizarCargo/${usuario.id_usuario}?id_cargo=${formik.values.cargo}`)
         }
         Swal.fire({
           ...similarCustomSA,

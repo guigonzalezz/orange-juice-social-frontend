@@ -62,7 +62,7 @@ export const UsuarioListToolbar = (props) => {
         denyButtonText: `Cancelar`,
       }).then(async (result) => {
         if (result.isConfirmed) {
-          await axios.delete(`http://localhost:8080/usuario/deletar?id_usuario=${ids[0]}`)
+          await axios.delete(`${process.env.HEROKU_OJ_API_DEV_URL}/usuario/deletar?id_usuario=${ids[0]}`)
           .then(async res => {
             Swal.fire({
               ...similarCustomSA,
@@ -71,7 +71,7 @@ export const UsuarioListToolbar = (props) => {
               showConfirmButton: false,
               timer: 1500
             })
-            await axios.get(`http://localhost:8080/usuario/listar`)
+            await axios.get(`${process.env.HEROKU_OJ_API_DEV_URL}/usuario/listar`)
             .then(res => {
               setUsuariosTable(res.data)
               forceReload()
@@ -100,7 +100,7 @@ export const UsuarioListToolbar = (props) => {
         denyButtonText: `Cancelar`,
       }).then(async (result) => {
         if (result.isConfirmed) {
-          await axios.delete(`http://localhost:8080/usuario/deletarVarios?ids=${ids.join(',')}`)
+          await axios.delete(`${process.env.HEROKU_OJ_API_DEV_URL}/usuario/deletarVarios?ids=${ids.join(',')}`)
           .then(async res => {
             Swal.fire({
               ...similarCustomSA,
@@ -109,7 +109,7 @@ export const UsuarioListToolbar = (props) => {
               showConfirmButton: false,
               timer: 1500
             })
-            await axios.get(`http://localhost:8080/usuario/listar`)
+            await axios.get(`${process.env.HEROKU_OJ_API_DEV_URL}/usuario/listar`)
             .then(res => {
               setUsuariosTable(res.data)
               forceReload()
@@ -148,7 +148,7 @@ export const UsuarioListToolbar = (props) => {
       })
     }
     else if(idsUsuariosSelecionados.length == 1) {
-      await axios.get(`http://localhost:8080/usuario/buscarPerfil?id_usuario=${idsUsuariosSelecionados[0]}`)
+      await axios.get(`${process.env.HEROKU_OJ_API_DEV_URL}/usuario/buscarPerfil?id_usuario=${idsUsuariosSelecionados[0]}`)
         .then(async res => {
           setHandleAlteraUsuarioInfo({
             nome: res.data.nome,
@@ -158,7 +158,7 @@ export const UsuarioListToolbar = (props) => {
             cidade: res.data.cidade,
             estado: res.data.estado,
             id_usuario: res.data.id_usuario,
-            id_cargo: (await axios.get(`http://localhost:8080/usuario/buscarCargo?id_usuario=${idsUsuariosSelecionados[0]}`)).data.id_cargo
+            id_cargo: (await axios.get(`${process.env.HEROKU_OJ_API_DEV_URL}/usuario/buscarCargo?id_usuario=${idsUsuariosSelecionados[0]}`)).data.id_cargo
           })
         })
       setOpenAltera(true);
