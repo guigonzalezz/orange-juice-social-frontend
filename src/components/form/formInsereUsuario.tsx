@@ -269,8 +269,7 @@ const FormInsereUsuario = ({ handleClose, cargos }) => {
           onChange={formik.handleChange}
           value={formik.values.cargo}
           variant="outlined"
-          children={cargoOptions}
-        />
+        >{cargoOptions}</TextField>
 
         <TextField
           error={Boolean(formik.touched.contato && formik.errors.contato)}
@@ -327,8 +326,7 @@ const FormInsereUsuario = ({ handleClose, cargos }) => {
           onChange={formik.handleChange}
           value={formik.values.estado}
           variant="outlined"
-          children={estadoOptions}
-        />
+        >{estadoOptions}</TextField>
 
         <TextField
           select
@@ -342,8 +340,7 @@ const FormInsereUsuario = ({ handleClose, cargos }) => {
           onChange={formik.handleChange}
           value={formik.values.cidade}
           variant="outlined"
-          children={cidadeOptions}
-        />
+        >{cidadeOptions}</TextField>
 
 
         <Box sx={{ py: 2 }}>

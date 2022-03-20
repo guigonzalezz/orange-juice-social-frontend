@@ -4,8 +4,15 @@ import FormInsereUsuario from '../form/formInsereUsuario';
 
 const ModalInsereUsuario = ({ open, handleClose, cargos }) => {
   return (
-    <Dialog open={open} onClose={handleClose} disableEnforceFocus>
-      <FormInsereUsuario handleClose={handleClose} cargos={cargos} />
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      disableEnforceFocus
+    >
+      <FormInsereUsuario
+        handleClose={handleClose}
+        cargos={cargos}
+      />
     </Dialog>
   );
 };

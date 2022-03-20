@@ -31,50 +31,67 @@ export const Eventos = (props) => {
 
     return (
       <Tooltip title={item.descricao}>
-        <Box component="div" sx={{
-          minHeight: 120,
-          minWidth: 330,
-          mx: 2,
-          mb: 2,
-          borderRadius: 2,
-          display: 'flex',
-          background: '#17151C'
-        }}
+        <Box
+          component="div"
+          sx={{
+            minHeight: 120,
+            minWidth: 330,
+            mx: 2,
+            mb: 2,
+            borderRadius: 2,
+            display: 'flex',
+            background: '#17151C'
+          }}
         >
-          <Box component="div" sx={{
-            height: '100%',
-            width: 8,
-            borderTopLeftRadius: 10,
-            borderBottomLeftRadius: 10,
-            background: status
-          }}>
+          <Box
+            component="div"
+            sx={{
+              height: '100%',
+              width: 8,
+              borderTopLeftRadius: 10,
+              borderBottomLeftRadius: 10,
+              background: status
+            }}
+          >
 
           </Box>
 
-          <Box component="div" sx={{
-            width: '80%',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'flex-start',
-            justifyContent: 'center',
-            p:2
-          }}>
+          <Box
+            component="div"
+            sx={{
+              width: '80%',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'flex-start',
+              justifyContent: 'center',
+              p:2
+            }}
+          >
             <Typography>{item.titulo}</Typography>
             <Typography sx={{color:'#9590A0'}}>{
               format(new Date(item.data), 'p')
             }</Typography>
           </Box>
 
-          <Box component="div" sx={{
-            width: '20%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
+          <Box
+            component="div"
+            sx={{
+              width: '20%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
             {
               status != '#D14343' ?
-              <Link href={item.link} passHref>
-                <a style={{textDecoration: 'none', color:'#fff'}} target="_blank" rel="noopener noreferrer">
+              <Link
+                href={item.link}
+                passHref>
+                <a
+                  style={{textDecoration: 'none', color:'#fff'}}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <Box sx={{
                     background: status,
                     minWidth: 48,
@@ -111,32 +128,38 @@ export const Eventos = (props) => {
 
   return (
     items.length > 0 ?
-    <Box component="div"
-     sx={{
-      backgroundColor: 'transparent',
-      width: '100%',
-      height: 380,
-      overflowX: 'hidden',
-      overflowY: 'scroll',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'flex-start',
-      padding: 2,
-      '&::-webkit-scrollbar': {
-        height: '0.4em',
-        width: 8
-      },
-      '&::-webkit-scrollbar-track': {
-        '-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.00)'
-      },
-      '&::-webkit-scrollbar-thumb': {
-        backgroundColor: 'rgba(16,16,16,.9)',
-        borderRadius: 25,
-      },
-     }}
+    <Box
+      component="div"
+      sx={{
+        backgroundColor: 'transparent',
+        width: '100%',
+        height: 380,
+        overflowX: 'hidden',
+        overflowY: 'scroll',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        padding: 2,
+        '&::-webkit-scrollbar': {
+          height: '0.4em',
+          width: 8
+        },
+        '&::-webkit-scrollbar-track': {
+          '-webkit-box-shadow': 'inset 0 0 6px rgba(0,0,0,0.00)'
+        },
+        '&::-webkit-scrollbar-thumb': {
+          backgroundColor: 'rgba(16,16,16,.9)',
+          borderRadius: 25,
+        },
+      }}
     >
       {
-        items.map( (item:IEventos, i) => <Item key={i} item={item}/> )
+        items.map( (item:IEventos, i) =>
+          <Item
+            key={i}
+            item={item}
+          />
+        )
       }
      </Box>
     :

@@ -108,8 +108,7 @@ export const DashboardSidebar = (props) => {
     noSsr: false
   });
 
-  useEffect(
-    () => {
+  useEffect(() => {
       if (!router.isReady) {
         return;
       }
@@ -117,9 +116,7 @@ export const DashboardSidebar = (props) => {
       if (open) {
         onClose?.();
       }
-    },
-    [router.asPath]
-  );
+  },[router.asPath]);
 
   const content = (
     <Box

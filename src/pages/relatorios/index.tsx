@@ -2,17 +2,15 @@ import Head from 'next/head';
 import axios from 'axios';
 import { GetServerSideProps } from 'next';
 import { parseCookies } from 'nookies';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 
 import { DashboardLayout } from '../../components/dashboard-layout';
-import { UsuarioContext } from '../../contexts/UsuarioContext';
 
 
 
 const Relatorios = (props) => {
   const { logout } = useContext(AuthContext)
-  const { setUser } = useContext(UsuarioContext)
   const {
     usuario,
     noticias,
@@ -20,10 +18,6 @@ const Relatorios = (props) => {
     eventos
   } = props
   const isAdmin = usuario.cargo == 'admin'//exibe opcoes do menu diferente
-
-  useEffect(()=>{
-    setUser(usuario)
-  },[])
 
   const logoutUser = async  () => {
     await logout();

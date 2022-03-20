@@ -4,7 +4,11 @@ import FormInsereCargo from '../form/formInsereCargo';
 
 const ModalInsereCargo = ({ open, handleClose }) => {
   return (
-    <Dialog open={open} onClose={handleClose} disableEnforceFocus>
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      disableEnforceFocus
+    >
       <FormInsereCargo handleClose={handleClose} />
     </Dialog>
   );

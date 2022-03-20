@@ -240,8 +240,7 @@ const FormAlteraUsuario = ({ handleClose, cargos, usuario }) => {
           onChange={formik.handleChange}
           value={formik.values.cargo}
           variant="outlined"
-          children={cargoOptions}
-        />
+        >{cargoOptions}</TextField>
 
         <TextField
           error={Boolean(formik.touched.contato && formik.errors.contato)}
@@ -285,8 +284,7 @@ const FormAlteraUsuario = ({ handleClose, cargos, usuario }) => {
           onChange={formik.handleChange}
           value={formik.values.estado}
           variant="outlined"
-          children={estadoOptions}
-        />
+        >{estadoOptions}</TextField>
 
         <TextField
           select
@@ -300,8 +298,7 @@ const FormAlteraUsuario = ({ handleClose, cargos, usuario }) => {
           onChange={formik.handleChange}
           value={formik.values.cidade}
           variant="outlined"
-          children={cidadeOptions}
-        />
+        >{cidadeOptions}</TextField>
 
 
         <Box sx={{ py: 2 }}>

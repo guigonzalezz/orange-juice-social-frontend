@@ -101,7 +101,10 @@ export const UsuarioListResults = ({ variaveis, funcoes, ...rest }) => {
   }
 
   return (
-    <Card {...rest} sx={{ width: '100%', overflow: 'hidden'}}>
+    <Card
+      {...rest}
+      sx={{ width: '100%', overflow: 'hidden'}}
+    >
       <Box >
         <Table >
           <TableHead>
@@ -175,20 +178,38 @@ export const UsuarioListResults = ({ variaveis, funcoes, ...rest }) => {
                   <TableCell>
                     <Box sx={{alignItems: 'center',display: 'flex'}}>
                       <Box>
-                        <Typography sx={{ fontSize: 14}} variant="body1">{usuario.perfil.nome}</Typography>
-                        <Typography sx={{ fontSize: 14}} color='#8C8C8C' variant="body1">{usuario.perfil.email}</Typography>
+                        <Typography
+                          sx={{ fontSize: 14}}
+                          variant="body1"
+                        >{usuario.perfil.nome}</Typography>
+                        <Typography
+                          sx={{ fontSize: 14}}
+                          color='#8C8C8C'
+                          variant="body1"
+                        >{usuario.perfil.email}</Typography>
                       </Box>
                     </Box>
                   </TableCell>
                   <TableCell>
                     <Box>
                       {usuario.ativo_SN == 'S' ?
-                        <Chip size="small" label="Ativo" color="primary" />
+                        <Chip
+                          size="small"
+                          label="Ativo"
+                          color="primary"
+                        />
                         :
-                        // @ts-ignore:
-                        <Chip size="small" label="Inativo" color="inative"/>
+
+                        <Chip
+                          size="small"
+                          label="Inativo" // @ts-ignore:
+                          color="inative"
+                        />
                       }
-                      <Typography color='#8C8C8C' sx={{fontSize: 12}}>Criado em:{format(new Date(usuario.stamp_created), 'dd/MM/yyyy')}</Typography>
+                      <Typography
+                        color='#8C8C8C'
+                        sx={{fontSize: 12}}
+                      >Criado em:{format(new Date(usuario.stamp_created), 'dd/MM/yyyy')}</Typography>
                     </Box>
                   </TableCell>
                   <TableCell>

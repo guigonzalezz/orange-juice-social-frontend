@@ -1,14 +1,12 @@
 
-import { Typography, useTheme } from '@mui/material';
+import { Typography } from '@mui/material';
 import Head from 'next/head';
 import axios from 'axios';
 import { GetServerSideProps } from 'next';
 import { parseCookies } from 'nookies';
-import { useContext, useEffect } from 'react';
 
 import { Box, Container, Grid } from '@mui/material';
 import { DashboardLayout } from '../../components/dashboard-layout';
-import { UsuarioContext } from '../../contexts/UsuarioContext';
 import { Noticias } from '../../components/home/noticias';
 import { Blog } from '../../components/home/blog';
 import { Eventos } from '../../components/home/eventos';
@@ -17,18 +15,12 @@ import { Calendario } from '../../components/home/calendario';
 
 
 const Home = (props) => {
-  const { setUser } = useContext(UsuarioContext)
   const {
     usuario,
     noticias,
     blogs,
     eventos
   } = props
-
-  useEffect(()=>{
-    setUser(usuario)
-  },[])
-
 
   return (
     <DashboardLayout

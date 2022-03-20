@@ -5,8 +5,15 @@ import FormEnviaFeedback from '../form/formEnviaFeedback';
 const ModalEnviaFeedbackDesafio = ({ open, handleClose, info}) => {
 
   return (
-    <Dialog open={open} onClose={handleClose} disableEnforceFocus>
-      <FormEnviaFeedback handleClose={handleClose} info={info}/>
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      disableEnforceFocus
+    >
+      <FormEnviaFeedback
+        handleClose={handleClose}
+        info={info}
+      />
     </Dialog>
   );
 };

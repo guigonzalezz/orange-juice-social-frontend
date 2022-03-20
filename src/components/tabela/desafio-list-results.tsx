@@ -40,7 +40,10 @@ export const DesafioListResults = ({ variaveis, funcoes, ...rest }) => {
   const handleClose= () => { setAnchorEl(null) }
 
   return (
-    <Card {...rest} sx={{ width: '100%', overflow: 'hidden'}}>
+    <Card
+      {...rest}
+      sx={{ width: '100%', overflow: 'hidden'}}
+    >
       <Box >
         <Table >
           <TableHead>
@@ -92,20 +95,37 @@ export const DesafioListResults = ({ variaveis, funcoes, ...rest }) => {
                   <TableCell>
                     <Box sx={{alignItems: 'center',display: 'flex'}}>
                       <Box>
-                        <Typography sx={{ fontSize: 14}} variant="body1">{desafio.usuario.nome}</Typography>
-                        <Typography sx={{ fontSize: 14}} color='#8C8C8C' variant="body1">{desafio.usuario.email_empresarial}</Typography>
+                        <Typography
+                          sx={{ fontSize: 14}}
+                          variant="body1"
+                        >{desafio.usuario.nome}</Typography>
+                        <Typography
+                          sx={{ fontSize: 14}}
+                          color='#8C8C8C'
+                          variant="body1"
+                        >{desafio.usuario.email_empresarial}</Typography>
                       </Box>
                     </Box>
                   </TableCell>
                   <TableCell>
                     <Box>
                       {desafio.feedback_recebido_SN == 'S' ?
-                        <Chip size="small" label="OK" color="primary" />
+                        <Chip
+                          size="small"
+                          label="OK"
+                          color="primary"
+                        />
                         :
-                        // @ts-ignore:
-                        <Chip size="small" label="Aguardando" color="inative"/>
+                        <Chip
+                          size="small"
+                          label="Aguardando" // @ts-ignore:
+                          color="inative"
+                        />
                       }
-                      <Typography color='#8C8C8C' sx={{fontSize: 12}}>Enviado em: {format(new Date(desafio.stamp_enviado), 'dd/MM/yyyy')}</Typography>
+                      <Typography
+                        color='#8C8C8C'
+                        sx={{fontSize: 12}}
+                      >Enviado em: {format(new Date(desafio.stamp_enviado), 'dd/MM/yyyy')}</Typography>
                     </Box>
                   </TableCell>
                   <TableCell>

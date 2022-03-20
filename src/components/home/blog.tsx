@@ -26,22 +26,39 @@ export const Blog = (props) => {
   function Item({ item }:IProps)
   {
       return (
-        <Link href={item.link} passHref>
-          <a style={{textDecoration: 'none', color:'#fff'}} target="_blank" rel="noopener noreferrer">
-            <Box component="div" sx={{
-              height: 352,
-              width: 330,
-              minWidth: 230,
-              mx: 2,
-              p: 2,
-              cursor:'pointer',
-            }}
+        <Link
+          href={item.link}
+          passHref
+        >
+          <a
+            style={{textDecoration: 'none', color:'#fff'}}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Box
+              component="div"
+              sx={{
+                height: 352,
+                width: 330,
+                minWidth: 230,
+                mx: 2,
+                p: 2,
+                cursor:'pointer',
+              }}
             >
               <Tooltip title={item.descricao}>
-                <img style={{borderRadius: 10}} width={'100%'} height={'50%'} src={item.imagem}/>
+                <img
+                  style={{borderRadius: 10}}
+                  width={'100%'}
+                  height={'50%'}
+                  src={item.imagem}
+                />
               </Tooltip>
 
-              <Box component="div" sx={{width: '100%', display: 'flex', height: '10%'}}>
+              <Box
+                component="div"
+                sx={{width: '100%', display: 'flex', height: '10%'}}
+              >
                 <Typography sx={{color:"#F5556E", fontSize: 14, mr:2}}>{item.autor}</Typography>
               </Box>
 
@@ -54,7 +71,8 @@ export const Blog = (props) => {
 
   return (
     items.length > 0 ?
-    <Box component="div"
+    <Box
+      component="div"
      sx={{
       backgroundColor: 'transparent',
       width: '100%',
@@ -78,7 +96,12 @@ export const Blog = (props) => {
      }}
     >
       {
-        items.map( (item:IBlog, i) => <Item key={i} item={item}/> )
+        items.map( (item:IBlog, i) =>
+          <Item
+            key={i}
+            item={item}
+          />
+        )
       }
      </Box>
     :

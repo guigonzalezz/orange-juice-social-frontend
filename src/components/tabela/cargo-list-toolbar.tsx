@@ -226,8 +226,15 @@ export const CargoListToolbar = (props) => {
           />
         </Box>
       </Box>
-      <ModalInsereCargo open={openInsere} handleClose={handleInsereClose} />
-      <ModalAlteraCargo open={openAltera} handleClose={handleAlteraClose} cargo={handleAlteraCargoInfo} />
+      <ModalInsereCargo
+        open={openInsere}
+        handleClose={handleInsereClose}
+      />
+      <ModalAlteraCargo
+        open={openAltera}
+        handleClose={handleAlteraClose}
+        cargo={handleAlteraCargoInfo}
+      />
     </Box>
   )
 };

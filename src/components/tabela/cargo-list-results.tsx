@@ -103,7 +103,10 @@ export const CargoListResults = ({ variaveis, funcoes, ...rest }) => {
   }
 
   return (
-    <Card {...rest} sx={{ width: '100%', overflow: 'hidden'}}>
+    <Card
+      {...rest}
+      sx={{ width: '100%', overflow: 'hidden'}}
+    >
       <Box >
         <Table >
           <TableHead>
@@ -168,17 +171,27 @@ export const CargoListResults = ({ variaveis, funcoes, ...rest }) => {
                   <TableCell>
                     <Box sx={{alignItems: 'center',display: 'flex'}}>
                       <Box>
-                        <Typography sx={{ fontSize: 14}} variant="body1">{cargo.nome}</Typography>
+                        <Typography
+                          sx={{ fontSize: 14}}
+                          variant="body1"
+                        >{cargo.nome}</Typography>
                       </Box>
                     </Box>
                   </TableCell>
                   <TableCell>
                     <Box>
                       {cargo.ativo_SN == 'S' ?
-                        <Chip size="small" label="Ativo" color="primary" />
+                        <Chip
+                          size="small"
+                          label="Ativo"
+                          color="primary"
+                        />
                         :
-                        // @ts-ignore:
-                        <Chip size="small" label="Inativo" color="inative"/>
+                        <Chip
+                          size="small"
+                          label="Inativo"// @ts-ignore:
+                          color="inative"
+                        />
                       }
                     </Box>
                   </TableCell>

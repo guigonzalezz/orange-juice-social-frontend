@@ -248,8 +248,17 @@ export const UsuarioListToolbar = (props) => {
           />
         </Box>
       </Box>
-      <ModalInsereUsuario open={openInsere} handleClose={handleInsereClose} cargos={cargos} />
-      <ModalAlteraUsuario open={openAltera} handleClose={handleAlteraClose} cargos={cargos} usuario={handleAlteraUsuarioInfo} />
+      <ModalInsereUsuario
+        open={openInsere}
+        handleClose={handleInsereClose}
+        cargos={cargos}
+      />
+      <ModalAlteraUsuario
+        open={openAltera}
+        handleClose={handleAlteraClose}
+        cargos={cargos}
+        usuario={handleAlteraUsuarioInfo}
+      />
     </Box>
   )
 };

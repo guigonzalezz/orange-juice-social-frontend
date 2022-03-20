@@ -4,8 +4,15 @@ import FormAlteraCargo from '../form/formAlteraCargo';
 
 const ModalAlteraCargo = ({ open, handleClose, cargo}) => {
   return (
-    <Dialog open={open} onClose={handleClose} disableEnforceFocus>
-      <FormAlteraCargo handleClose={handleClose} cargo={cargo} />
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      disableEnforceFocus
+    >
+      <FormAlteraCargo
+        handleClose={handleClose}
+        cargo={cargo}
+      />
     </Dialog>
   );
 };

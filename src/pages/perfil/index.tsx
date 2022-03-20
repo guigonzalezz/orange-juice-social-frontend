@@ -6,13 +6,11 @@ import { useContext, useEffect } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 
 import { DashboardLayout } from '../../components/dashboard-layout';
-import { UsuarioContext } from '../../contexts/UsuarioContext';
 
 
 
 const Perfil = (props) => {
   const { logout } = useContext(AuthContext)
-  const { setUser } = useContext(UsuarioContext)
   const {
     usuario,
     noticias,
@@ -20,9 +18,6 @@ const Perfil = (props) => {
     eventos
   } = props
 
-  useEffect(()=>{
-    setUser(usuario)
-  },[])
 
   const logoutUser = async  () => {
     await logout();

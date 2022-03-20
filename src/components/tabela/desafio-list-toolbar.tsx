@@ -53,7 +53,11 @@ export const DesafioListToolbar = (props) => {
           />
         </Box>
       </Box>
-      <ModalEnviaFeedbackDesafio open={openEnviaFeedback} handleClose={handleEnviaFeedbackClose} info={handleAlteraDesafioInfo} />
+      <ModalEnviaFeedbackDesafio
+        open={openEnviaFeedback}
+        handleClose={handleEnviaFeedbackClose}
+        info={handleAlteraDesafioInfo}
+      />
     </Box>
   )
 };

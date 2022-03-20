@@ -4,8 +4,16 @@ import FormAlteraUsuario from '../form/formAlteraUsuario';
 
 const ModalAlteraUsuario = ({ open, handleClose, cargos, usuario}) => {
   return (
-    <Dialog open={open} onClose={handleClose} disableEnforceFocus>
-      <FormAlteraUsuario handleClose={handleClose} cargos={cargos} usuario={usuario} />
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      disableEnforceFocus
+    >
+      <FormAlteraUsuario
+        handleClose={handleClose}
+        cargos={cargos}
+        usuario={usuario}
+      />
     </Dialog>
   );
 };
