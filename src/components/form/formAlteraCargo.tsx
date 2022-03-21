@@ -31,6 +31,7 @@ const FormAlteraCargo = ({ handleClose, cargo }) => {
     validationSchema: Yup.object({
       nome: Yup
         .string()
+        .matches(/^([A-Za-z\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s]*)$/gi,'Permitido apenas letras do alfabeto Latin.')
         .max(255)
         .required('Nome obrigatorio'),
     }),

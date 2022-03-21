@@ -32,7 +32,7 @@ const FormEnviaFeedback = ({ handleClose, info }) => {
     },
     validationSchema: Yup.object({
       nota: Yup
-        .string()
+        .number()
         .max(10)
         .min(0)
         .required('Nota obrigatoria'),

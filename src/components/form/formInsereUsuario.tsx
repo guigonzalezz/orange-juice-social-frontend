@@ -51,6 +51,8 @@ const FormInsereUsuario = ({ handleClose, cargos }) => {
     validationSchema: Yup.object({
       nome: Yup
         .string()
+        .matches(/^([A-Za-z\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s]*)$/gi,'Permitido apenas letras do alfabeto Latin.')
+        .matches(/^\s*[\S]+(\s[\S]+)+\s*$/gms,'Por favor digite seu nome completo.')
         .max(255)
         .required('Nome obrigatorio'),
       email_pessoal: Yup
