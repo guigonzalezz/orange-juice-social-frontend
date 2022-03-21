@@ -248,7 +248,7 @@ const FormInsereUsuario = ({ handleClose, cargos }) => {
           error={Boolean(formik.touched.email_empresarial && formik.errors.email_empresarial)}
           fullWidth
           helperText={formik.touched.email_empresarial && formik.errors.email_empresarial}
-          label="Email pessoal"
+          label="Email empresarial"
           margin="normal"
           name="email_empresarial"
           onBlur={formik.handleBlur}
