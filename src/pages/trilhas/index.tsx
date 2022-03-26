@@ -2,27 +2,30 @@ import Head from 'next/head';
 import axios from 'axios';
 import { GetServerSideProps } from 'next';
 import { parseCookies } from 'nookies';
-import { useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { Box, Typography } from '@mui/material';
 
 import { DashboardLayout } from '../../components/dashboard-layout';
+import { Trilha } from '../../components/shared/Trilha';
 
 
 
-const Perfil = (props) => {
+const Trilhas = (props) => {
   const { logout } = useContext(AuthContext)
   const {
     usuario,
-    noticias,
-    blogs,
-    eventos
+    trilhas
   } = props
-  //const isAdmin = usuario.cargo == 'admin'//exibe opcoes do menu diferente
 
   const logoutUser = async  () => {
     await logout();
   }
+
+  const [expanded, setExpanded] = React.useState<string | false>(false);
+
+
+
 
   return (
     <DashboardLayout
@@ -36,34 +39,64 @@ const Perfil = (props) => {
         </title>
       </Head>
 
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          py: 4,
-          display: 'flex',
-          justifyContent: 'center',
-          textAlign: 'center',
-          flexDirection: 'column'
-        }}
-      >
-        <Typography>
-          Em construção...
-        </Typography>
-      </Box>
+      {trilhas.length > 0 ?
+        <Box
+          component="div"
+          sx={{
+            backgroundColor: 'transparent',
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'flex-start',
+            padding: 2,
+            mt: 2,
+          }}
+        >
+          <Typography
+            sx={{ m: 1 }}
+            variant="h4"
+          >
+            Trilhas
+          </Typography>
+          {
+            trilhas.map((trilha, key) =>
+              <Trilha
+                key={key}
+                idUsuario={usuario.id_usuario}
+                trilha={trilha}
+                setExpanded={setExpanded}
+                expanded={expanded}
+              />
+            )
+          }
+
+        </Box>
+        :
+          <Box sx={{
+            width: '100%',
+            height: 100,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}>
+            <Typography sx={{ color: '#454B50', fontSize: 24}}>Nenhuma trilha disponivel no momento...</Typography>
+          </Box>
+      }
 
     </DashboardLayout>
   )
 }
 
-//Pega o token e valida se esta valido para acessar a tela, apos isso, busca informacoes
-//do usuario, se nao for admin, noa deixa entrar na tela.
-//Isso sera feito nas telas que nao tem acesso para aquele usuario
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { ['nextauth.token']: token } = parseCookies(ctx)
   let usuario = {
-    id_usuario: 0
+    id_usuario: 0,
+    cargo: ''
   }
+  let trilhas = []
+  let trilhas_usuario = []
+  let cursos_usuario = []
 
   if (!token) {
     return {
@@ -81,18 +114,50 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         usuario = res.data
       })
 
-    await axios.get(`${process.env.HEROKU_OJ_API_DEV_URL}/usuario/buscar?id_usuario=${usuario.id_usuario}`)
-      .then(res => {
-        usuario = res.data
+    await Promise.all([
+      await axios.get(`${process.env.HEROKU_OJ_API_DEV_URL}/usuario/buscar?id_usuario=${usuario.id_usuario}`)
+        .then(res => {
+          usuario = res.data
+        }),
+      await axios.get(`${process.env.HEROKU_OJ_API_DEV_URL}/contentful/entries/trilhas?cargo=${usuario.cargo}`)
+        .then(res => {
+          trilhas = res.data
+        }),
+      await axios.get(`${process.env.HEROKU_OJ_API_DEV_URL}/usuario/trilhas?id_usuario=${usuario.id_usuario}`)
+        .then(res => {
+          trilhas_usuario = res.data
+        }),
+      await axios.get(`${process.env.HEROKU_OJ_API_DEV_URL}/usuario/cursos?id_usuario=${usuario.id_usuario}`)
+        .then(res => {
+          cursos_usuario = res.data
+        })
+    ]).then(()=>{
+      trilhas = trilhas.map(trilha=>{
+        const acheiTrilha = trilhas_usuario.find(elemTrilha => elemTrilha.trilha_nome == trilha.titulo)
+        return {
+          ...trilha,
+          cursos: trilha.cursos.map(curso => {
+            const acheiCurso = cursos_usuario.find(elemCurso => elemCurso.curso_nome == curso.titulo)
+            return {
+              ...curso,
+              concluido_SN: acheiCurso ? acheiCurso.concluido_SN : 'N',
+              anotacao: acheiCurso ? acheiCurso.anotacao : ''
+            }
+          }),
+          concluido_SN: acheiTrilha ? acheiTrilha.concluido_SN : 'N',
+          anotacao: acheiTrilha ? acheiTrilha.anotacao : ''
+        }
       })
+    })
 
   }
 
   return {
     props: {
-      usuario
+      usuario,
+      trilhas
     }
   }
 }
 
-export default Perfil
+export default Trilhas

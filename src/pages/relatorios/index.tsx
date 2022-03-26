@@ -61,8 +61,9 @@ const Relatorios = (props) => {
             Relatórios
           </Typography>
           {
-            relatorios.map(report =>
+            relatorios.map((report,key) =>
               <Report
+                key={key}
                 nome={report.nome}
                 descricao={report.descricao}
                 tipo={report.tipo}
