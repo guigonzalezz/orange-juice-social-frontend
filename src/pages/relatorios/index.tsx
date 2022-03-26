@@ -7,7 +7,16 @@ import { AuthContext } from '../../contexts/AuthContext';
 import { Box, Typography } from '@mui/material';
 
 import { DashboardLayout } from '../../components/dashboard-layout';
+import { ArrowDownward, TextSnippet } from '@mui/icons-material';
+import { Report } from '../../components/shared/Report';
 
+const relatorios = [
+  {
+    nome: 'Listagem Usuários',
+    descricao: "Este relatório nos mostra tdos os usuários ativos.",
+    tipo: 'usuarios_ativos'
+  },
+];
 
 
 const Relatorios = (props) => {
@@ -31,29 +40,53 @@ const Relatorios = (props) => {
         </title>
       </Head>
 
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          py: 4,
-          display: 'flex',
-          justifyContent: 'center',
-          textAlign: 'center',
-          flexDirection: 'column'
-        }}
-      >
-        <Typography>
-          Em construção...
-        </Typography>
-      </Box>
+      {relatorios.length > 0 ?
+        <Box
+          component="div"
+          sx={{
+            backgroundColor: 'transparent',
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'flex-start',
+            padding: 2,
+            mt: 2,
+          }}
+        >
+          <Typography
+            sx={{ m: 1 }}
+            variant="h4"
+          >
+            Relatórios
+          </Typography>
+          {
+            relatorios.map(report =>
+              <Report
+                nome={report.nome}
+                descricao={report.descricao}
+                tipo={report.tipo}
+              />
+            )
+          }
+
+        </Box>
+        :
+          <Box sx={{
+            width: '100%',
+            height: 100,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}>
+            <Typography sx={{ color: '#454B50', fontSize: 24}}>Nenhum relatorio disponivel...</Typography>
+          </Box>
+      }
 
     </DashboardLayout>
   )
 }
 
-//Pega o token e valida se esta valido para acessar a tela, apos isso, busca informacoes
-//do usuario, se nao for admin, noa deixa entrar na tela.
-//Isso sera feito nas telas que nao tem acesso para aquele usuario
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { ['nextauth.token']: token } = parseCookies(ctx)
   let usuario = {
