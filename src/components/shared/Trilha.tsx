@@ -12,6 +12,7 @@ import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
 import { theme } from '../../styles/theme';
 import Swal from 'sweetalert2';
 import { useRouter } from 'next/router';
+import { Curso } from './Curso'
 
 const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} {...props} />
@@ -30,7 +31,7 @@ const AccordionSummary = styled((props: AccordionSummaryProps) => (
   backgroundColor:'rgba(255, 255, 255, .05)',
   flexDirection: 'row-reverse',
   '& .MuiAccordionSummary-expandIconWrapper.Mui-expanded': {
-    transform: 'rotate(90deg)',
+    transform: 'rotate(180deg)',
   },
   '& .MuiAccordionSummary-content': {
     marginLeft: theme.spacing(1),
@@ -42,21 +43,9 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   borderTop: '1px solid #5c4b4b1f',
 }));
 
-const similarCustomSA = {
-  width: 600,
-  padding: '3em',
-  color: '#fff',
-  background: '#343434',
-  backdrop: `
-    #00000066
-    left top
-    no-repeat
-  `,
-  confirmButtonColor: '#F96400',
-  confirmButtonText: 'Continuar'
-}
 
-export const Trilha = ({idUsuario ,trilha, setExpanded, expanded}) => {
+
+export const Trilha = ({idUsuario ,trilha, setExpanded, expanded, similarCustomSA}) => {
   const [trilhaConcluida, setTrilhaConcluida] = useState(trilha.concluido_SN == 'S')
   const [cursos, setCursos] = useState(trilha.cursos)
   const router = useRouter();
@@ -65,6 +54,7 @@ export const Trilha = ({idUsuario ,trilha, setExpanded, expanded}) => {
 
 
   const handleChange = (panel: string) => {setExpanded(panel == expanded ? false : panel)}
+
   const handleConcluirTrilha = () => {
     Swal.fire({
       ...similarCustomSA,
@@ -95,6 +85,21 @@ export const Trilha = ({idUsuario ,trilha, setExpanded, expanded}) => {
       }
     })
   }
+
+  const verificaSeTodosCursosForamConcluidos = async () => {
+    const trilhaFoiConcluida = cursos.every(curso => curso.concluido_SN == 'S')
+    if(trilhaFoiConcluida) {
+      await axios.post(`${process.env.HEROKU_OJ_API_DEV_URL}/usuario/concluir/trilha`, {
+        id_usuario: idUsuario,
+        nome: trilha.titulo,
+        anotacao: ""
+      }).then(res => {
+        setTrilhaConcluida(true)
+      })
+      router.reload()
+    }
+  }
+
   const handleConcluirCurso = async (key) => {
     if(cursos[key].concluido_SN == 'N') {
       Swal.fire({
@@ -129,7 +134,6 @@ export const Trilha = ({idUsuario ,trilha, setExpanded, expanded}) => {
     }
   }
 
-  console.log(theme.breakpoints.up(400) ? 'maior':'menor')
   return(
     <Accordion
       expanded={expanded === trilha.titulo}
@@ -150,6 +154,7 @@ export const Trilha = ({idUsuario ,trilha, setExpanded, expanded}) => {
           borderLeftColor: `${trilhaConcluida ? 'success.main' : 'secondary.main'}`,
           borderLeftStyle: 'solid',
           borderLeftWidth: 2,
+          height: 100
         }}
       >
         <Typography sx={{ width: '50%', [theme.breakpoints.down(500)]: { width: 200 }, display:'flex',alignItems:'center',textAlign:'center', justifyContent:'center',flexShrink: 0 }}>
@@ -168,40 +173,12 @@ export const Trilha = ({idUsuario ,trilha, setExpanded, expanded}) => {
       <AccordionDetails sx={{backgroundColor:'#232323'}}>
         {
           cursos.map((curso, key) => (
-            <Box key={key} sx={{
-              display:'flex',
-              justifyContent:'space-between',
-              alignItems:'center',
-              '&:not(:last-child)': {
-                borderBottom: 1,
-                borderColor:'#1B1B1B'
-              },
-            }}>
-              <Typography fontSize={12} color='primary.main' sx={{width:'95%'}}>
-                {curso.titulo}
-              </Typography>
-              {/* <Typography fontSize={12} sx={{[theme.breakpoints.down(500)]: { display: 'none' }}}>
-                {curso.descricao}
-              </Typography> */}
-              <Box sx={{ width: 100, display: 'flex', justifyContent:'space-between', alignItems:'center'}}>
-                <a target="_blank" href={curso.link} rel="noopener noreferrer" style={{ textDecoration: 'none', color:'white' }}>
-                  <OpenInNew  sx={{
-                      ":hover": {
-                        color:'primary.main',
-                        cursor: 'pointer'
-                      }
-                    }}
-                  />
-                </a>
-                <Checkbox
-                  checked={curso.concluido_SN == "S" ? true: false}
-                  onClick={()=>{
-                    handleConcluirCurso(key)
-                  }}
-                  inputProps={{ 'aria-label': 'controlled' }}
-                />
-              </Box>
-            </Box>
+            <Curso
+              idUsuario={idUsuario}
+              curso={curso}
+              similarCustomSA={similarCustomSA}
+              verificaSeTodosCursosForamConcluidos={verificaSeTodosCursosForamConcluidos}
+            />
           ))
         }
 

@@ -2,30 +2,33 @@ import Head from 'next/head';
 import axios from 'axios';
 import { GetServerSideProps } from 'next';
 import { parseCookies } from 'nookies';
-import React, { useContext, useEffect } from 'react';
-import { AuthContext } from '../../contexts/AuthContext';
+import React from 'react';
 import { Box, Typography } from '@mui/material';
 
 import { DashboardLayout } from '../../components/dashboard-layout';
 import { Trilha } from '../../components/shared/Trilha';
 
-
+const similarCustomSA = {
+  width: 600,
+  padding: '3em',
+  color: '#fff',
+  background: '#343434',
+  backdrop: `
+    #00000066
+    left top
+    no-repeat
+  `,
+  confirmButtonColor: '#F96400',
+  confirmButtonText: 'Continuar'
+}
 
 const Trilhas = (props) => {
-  const { logout } = useContext(AuthContext)
   const {
     usuario,
     trilhas
   } = props
 
-  const logoutUser = async  () => {
-    await logout();
-  }
-
   const [expanded, setExpanded] = React.useState<string | false>(false);
-
-
-
 
   return (
     <DashboardLayout
@@ -67,6 +70,7 @@ const Trilhas = (props) => {
                 trilha={trilha}
                 setExpanded={setExpanded}
                 expanded={expanded}
+                similarCustomSA={similarCustomSA}
               />
             )
           }

@@ -85,7 +85,7 @@ export const DashboardNavbar = (props) => {
           </Tooltip>
           <Box sx={{ flexGrow: 1 }} />
 
-          <Tooltip title="Search">
+          {/* <Tooltip title="Search">
             <Search>
               <SearchIconWrapper>
                 <SearchIcon sx={{ color: '#5F6060'}}/>
@@ -95,7 +95,7 @@ export const DashboardNavbar = (props) => {
                 inputProps={{ 'aria-label': 'search' }}
               />
             </Search>
-          </Tooltip>
+          </Tooltip> */}
 
           <Box sx={{ flexGrow: 1 }} />
           <Tooltip title="Notifications">
