@@ -97,40 +97,6 @@ export const Trilha = ({idUsuario ,trilha, setExpanded, expanded, similarCustomS
     }
   }
 
-  const handleConcluirCurso = async (key) => {
-    if(cursos[key].concluido_SN == 'N') {
-      Swal.fire({
-        ...similarCustomSA,
-        title: 'Voce tem certeza que deseja concluir este curso ?',
-        text: 'Nao sera possivel voltar a tras.',
-        showDenyButton: true,
-        confirmButtonText: 'Concluir',
-        denyButtonText: `Cancelar`,
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          await axios.post(`${process.env.HEROKU_OJ_API_DEV_URL}/usuario/concluir/curso`, {
-            id_usuario: idUsuario,
-            nome: cursos[key].titulo,
-            anotacao: ""
-          }).then(async res=>{
-            cursos[key].concluido_SN = cursos[key].concluido_SN == 'S' ? 'N' : 'S'
-            const trilhaFoiConcluida = cursos.every(curso => curso.concluido_SN == 'S')
-            if(trilhaFoiConcluida) {
-              await axios.post(`${process.env.HEROKU_OJ_API_DEV_URL}/usuario/concluir/trilha`, {
-                id_usuario: idUsuario,
-                nome: trilha.titulo,
-                anotacao: ""
-              }).then(res => {
-                setTrilhaConcluida(true)
-              })
-            }
-            router.reload()
-          })
-        }
-      })
-    }
-  }
-
   return(
     <Accordion
       expanded={expanded === trilha.titulo}
@@ -172,6 +138,7 @@ export const Trilha = ({idUsuario ,trilha, setExpanded, expanded, similarCustomS
         {
           cursos.map((curso, key) => (
             <Curso
+              key={key}
               idUsuario={idUsuario}
               curso={curso}
               similarCustomSA={similarCustomSA}
