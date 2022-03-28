@@ -50,9 +50,6 @@ export const Trilha = ({idUsuario ,trilha, setExpanded, expanded, similarCustomS
   const [cursos, setCursos] = useState(trilha.cursos)
   const router = useRouter();
 
-  //E SE EU PASSE O CURSOS PARA SER UM COMPONENT COMPLETO, AI EU FARIA O RERENDER DELE
-
-
   const handleChange = (panel: string) => {setExpanded(panel == expanded ? false : panel)}
 
   const handleConcluirTrilha = () => {
@@ -143,7 +140,7 @@ export const Trilha = ({idUsuario ,trilha, setExpanded, expanded, similarCustomS
         my: 1,
         mx: 3,
         borderRadius: 2,
-        backgroundColor: '#1B1B1B'
+        backgroundColor: '#232323'
       }}
     >
       <AccordionSummary
@@ -151,13 +148,14 @@ export const Trilha = ({idUsuario ,trilha, setExpanded, expanded, similarCustomS
         aria-controls="panel1bh-content"
         id="panel1bh-header"
         sx={{
+          backgroundColor: '#232323',
           borderLeftColor: `${trilhaConcluida ? 'success.main' : 'secondary.main'}`,
           borderLeftStyle: 'solid',
           borderLeftWidth: 2,
           height: 100
         }}
       >
-        <Typography sx={{ width: '50%', [theme.breakpoints.down(500)]: { width: 200 }, display:'flex',alignItems:'center',textAlign:'center', justifyContent:'center',flexShrink: 0 }}>
+        <Typography sx={{ color:'white', width: '50%', [theme.breakpoints.down(500)]: { width: 200 }, display:'flex',alignItems:'center',textAlign:'center', justifyContent:'center',flexShrink: 0 }}>
           {trilha.titulo}
         </Typography>
         <Typography fontSize={12} sx={{ color: 'text.secondary', width: '40%', [theme.breakpoints.down(500)]: { display: 'none' } }}>{trilha.descricao}</Typography>

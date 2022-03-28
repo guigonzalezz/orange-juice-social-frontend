@@ -6,27 +6,25 @@ import { parseCookies } from 'nookies';
 import { DashboardLayout } from '../../components/dashboard-layout';
 import { Box, Typography } from '@mui/material';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { Desafio } from '../../components/shared/Desafio';
 
-const Quizzes = ({ usuario, usuarios, cargos }) => {
-  const [filtroNome, setFiltroNome] = useState('')
-  const [idsUsuariosSelecionados, setIdsUsuariosSelecionados] = useState([]);
-  const [usuariosTable, setUsuariosTable] = useState(usuarios)
+const similarCustomSA = {
+  width: 600,
+  padding: '3em',
+  color: '#fff',
+  background: '#343434',
+  backdrop: `
+    #00000066
+    left top
+    no-repeat
+  `,
+  confirmButtonColor: '#F96400',
+  confirmButtonText: 'Continuar'
+}
 
-  const variaveis = {
-    usuarios,
-    cargos,
-    usuariosTable,
-    filtroNome,
-    idsUsuariosSelecionados
-  }
-
-  const funcoes = {
-    setUsuariosTable,
-    setIdsUsuariosSelecionados,
-    setFiltroNome
-  }
-
+const DesafiosUsuarios = ({ usuario, desafios }) => {
+  const [expanded, setExpanded] = React.useState<string | false>(false);
   return (
     <DashboardLayout
       avatarLink={usuario.avatar_link}
@@ -39,22 +37,51 @@ const Quizzes = ({ usuario, usuarios, cargos }) => {
         </title>
       </Head>
 
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          py: 4,
-          display: 'flex',
-          justifyContent: 'center',
-          textAlign: 'center',
-          flexDirection: 'column'
-        }}
-      >
-        <Typography>
-          Em construção...
-        </Typography>
-      </Box>
+      {desafios.length > 0 ?
+        <Box
+          component="div"
+          sx={{
+            backgroundColor: 'transparent',
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'flex-start',
+            padding: 2,
+            mt: 2,
+          }}
+        >
+          <Typography
+            sx={{ m: 1 }}
+            variant="h4"
+          >
+            Desafios
+          </Typography>
 
+          {
+            desafios.map((desafio, key) =>
+              <Desafio
+                key={key}
+                idUsuario={usuario.id_usuario}
+                desafio={desafio}
+                setExpanded={setExpanded}
+                expanded={expanded}
+                similarCustomSA={similarCustomSA}
+              />
+            )
+          }
+        </Box>
+        :
+        <Box sx={{
+          width: '100%',
+          height: 100,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}>
+          <Typography sx={{ color: '#454B50', fontSize: 24}}>Nenhum desafio disponivel no momento...</Typography>
+        </Box>
+      }
     </DashboardLayout>
   )
 }
@@ -65,6 +92,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     id_usuario: 0,
     cargo: ''
   }
+  let desafios = []
+  let desafios_enviados = []
 
   if (!token) {
     return {
@@ -82,22 +111,38 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       .then(res => {
         usuario = res.data
       })
-      .catch(error => {
-        console.log("Error -> ", error)
+    await Promise.all([
+      await axios.get(`${process.env.HEROKU_OJ_API_DEV_URL}/usuario/buscar?id_usuario=${usuario.id_usuario}`)
+        .then(res => {
+          usuario = res.data
+        }),
+      await axios.get(`${process.env.HEROKU_OJ_API_DEV_URL}/contentful/entries/desafios?cargo=${usuario.cargo}`)
+        .then(res => {
+          desafios = res.data
+        }),
+      await axios.get(`${process.env.HEROKU_OJ_API_DEV_URL}/usuario/desafios_usuario?id_usuario=${usuario.id_usuario}`)
+        .then(res => {
+          desafios_enviados = res.data
+        }),
+    ]).then(() => {
+      desafios = desafios.map(desafio => {
+        const acheiDesafio = desafios_enviados.find(elemDesafio => elemDesafio.desafio_nome == desafio.titulo)
+        return {
+          ...desafio,
+          conclusao: acheiDesafio ? acheiDesafio : {}
+        }
       })
 
-    await axios.get(`${process.env.HEROKU_OJ_API_DEV_URL}/usuario/buscar?id_usuario=${usuario.id_usuario}`)
-      .then(res => {
-        usuario = res.data
-      })
+    })
 
   }
 
   return {
     props: {
       usuario,
+      desafios
     }
   }
 }
 
-export default Quizzes
+export default DesafiosUsuarios
