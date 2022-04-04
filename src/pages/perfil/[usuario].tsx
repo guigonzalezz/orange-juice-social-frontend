@@ -83,7 +83,7 @@ const Perfil = ({ usuarioLogado, usuarioTerceiro, meuPerfil }) => {
         </CardContent>
 
         <CardContent sx={{ textAlign:'center', py:0,background:'#232323',color:'white'}}>
-          <Typography>"{usuarioTerceiro.social.titulo}"</Typography>
+          <Typography>&quot;{usuarioTerceiro.social.titulo}&quot;</Typography>
         </CardContent>
 
 
