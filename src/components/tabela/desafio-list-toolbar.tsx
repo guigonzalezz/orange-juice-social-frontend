@@ -5,11 +5,9 @@ import {
   InputAdornment,
   SvgIcon, Typography
 } from '@mui/material';
-import ModalEnviaFeedbackDesafio from '../modal/modalEnviaFeedbackDesafio';
 
 export const DesafioListToolbar = (props) => {
-  const { setFiltroNome, handleEnviaFeedbackClose } = props.funcoes
-  const { openEnviaFeedback,handleAlteraDesafioInfo } = props.variaveis
+  const { setFiltroNome } = props.funcoes
 
   return (
     <Box {...props}>
@@ -53,11 +51,6 @@ export const DesafioListToolbar = (props) => {
           />
         </Box>
       </Box>
-      <ModalEnviaFeedbackDesafio
-        open={openEnviaFeedback}
-        handleClose={handleEnviaFeedbackClose}
-        info={handleAlteraDesafioInfo}
-      />
     </Box>
   )
 };

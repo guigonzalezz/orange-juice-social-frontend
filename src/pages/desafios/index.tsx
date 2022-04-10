@@ -14,26 +14,17 @@ const Desafios = ({ usuario, desafios }) => {
   const [filtroNome, setFiltroNome] = useState('')
   const [desafiosTable, setDesafiosTable] = useState(desafios)
 
-  const [handleAlteraDesafioInfo, setHandleAlteraDesafioInfo] = useState({});
-  const [openEnviaFeedback, setOpenEnviaFeedback] = useState(false);
-  const handleEnviaFeedbackOpen = () => { setOpenEnviaFeedback(true) }
-  const handleEnviaFeedbackClose = () => { setOpenEnviaFeedback(false) }
+
 
   const variaveis = {
     desafios,
     desafiosTable,
-    filtroNome,
-    openEnviaFeedback,
-    handleAlteraDesafioInfo
+    filtroNome
   }
 
   const funcoes = {
     setDesafiosTable,
-    setFiltroNome,
-    setHandleAlteraDesafioInfo,
-    setOpenEnviaFeedback,
-    handleEnviaFeedbackOpen,
-    handleEnviaFeedbackClose,
+    setFiltroNome
   }
 
   return (
@@ -68,7 +59,6 @@ const Desafios = ({ usuario, desafios }) => {
           </Box>
         </Container>
       </Box>
-
     </DashboardLayout>
   )
 }

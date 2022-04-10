@@ -18,26 +18,146 @@ import {
 } from '@mui/material';
 import { Send, MoreVert } from '@mui/icons-material';
 import { StyledMenuAnchor } from '../shared/StyledAnchorMenu'
+import axios from 'axios';
+import Swal from 'sweetalert2'
+import { useRouter } from 'next/router';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+
+const similarCustomSA = {
+  width: 600,
+  padding: '3em',
+  color: '#fff',
+  background: '#343434',
+  backdrop: `
+    #00000066
+    left top
+    no-repeat
+  `,
+  confirmButtonColor: '#F96400',
+  confirmButtonText: 'Continuar'
+}
 
 export const DesafioListResults = ({ variaveis, funcoes, ...rest }) => {
+  const router = useRouter();
   const { desafios,desafiosTable, filtroNome } = variaveis
-  const { setDesafiosTable, handleEnviaFeedbackOpen, setHandleAlteraDesafioInfo } = funcoes
+  const { setDesafiosTable } = funcoes
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(0);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
-
 
   useEffect(()=>{
     if(filtroNome == '') setDesafiosTable(desafios)
     else setDesafiosTable(desafios.filter(desafio => desafio.desafio_nome.includes(filtroNome)))
   },[filtroNome])
 
-
   const handleLimitChange = (event) => { setLimit(event.target.value) }
   const handlePageChange = (event, newPage) => { setPage(newPage) }
   const handleClick= (event: React.MouseEvent<HTMLElement>) => { setAnchorEl(event.currentTarget) }
   const handleClose= () => { setAnchorEl(null) }
+
+  const [handleDesafioInfo, setHandleDesafioInfo] = useState({})
+
+  const handleEnviaFeedback = async (desafio) => {
+    Swal.fire({
+      ...similarCustomSA,
+      title: 'Feedback',
+      text: 'O feedback é muito importante para o acolhimento do colaborador.',
+      inputLabel: 'Digite a nota de 0 a 10 do desafio:',
+      input: 'number',
+      inputAttributes: { autocapitalize: 'off' },
+      inputValidator: (value) => {
+        return (parseFloat(value) < 0 || parseFloat(value) > 10) && 'Valor precisa ser entre 0 e 10'
+      },
+      showCancelButton: true,
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Proximo',
+      showLoaderOnConfirm: true,
+      allowOutsideClick: () => !Swal.isLoading(),
+    }).then((result) => {
+      const nota = result.value;
+      if(result.isConfirmed) {
+        Swal.fire({
+          ...similarCustomSA,
+          title: 'Feedback',
+          text: 'O feedback é muito importante para o acolhimento do colaborador.',
+          inputLabel: 'Deseja adicionar um feedback ? Digite abaixo:',
+          input: 'text',
+          inputAttributes: { autocapitalize: 'off' },
+          showCancelButton: true,
+          cancelButtonText: 'Cancelar',
+          confirmButtonText: 'Enviar',
+          showLoaderOnConfirm: true
+        }).then(async res => {
+          const feedback = res.value;
+          await axios.post(`${process.env.HEROKU_OJ_API_DEV_URL}/usuario/feedback/desafio`,{
+            nota: nota,
+            feedback: feedback,
+            id_usuario: desafio.id_usuario,
+            id_desafio: desafio.id_usuario_desafio_conclusao,
+            id_responsavel: 11
+          }).then(res => {
+            Swal.fire({
+              ...similarCustomSA,
+              icon: 'success',
+              title: 'Feedback enviado com sucesso',
+              showConfirmButton: false,
+              timer: 1700
+            })
+            router.reload();
+          }).catch(error => {
+            Swal.fire({
+              ...similarCustomSA,
+              icon: 'error',
+              title: 'Erro ao enviar o feedback!',
+              showConfirmButton: false,
+              timer: 1700
+            })
+          })
+        }).catch(error => {
+          Swal.fire({
+            ...similarCustomSA,
+            icon: 'error',
+            title: 'Erro ao enviar o feedback!',
+            showConfirmButton: false,
+            timer: 1700
+          })
+        })
+      }
+    }).catch(error => {
+      Swal.fire({
+        ...similarCustomSA,
+        icon: 'error',
+        title: 'Erro ao enviar o feedback!',
+        showConfirmButton: false,
+        timer: 1700
+      })
+    })
+  }
+
+  const handleMostraFeedback = (desafio) => {
+    if(desafio.feedback) {
+      Swal.fire({
+        ...similarCustomSA,
+        title: 'Feedback',
+        icon: 'info',
+        iconColor: '#F96400',
+        html:
+          `<p><strong>Nota: </strong>${desafio.feedback.nota}</p> ` +
+          `<p><strong>Feedback: </strong>${desafio.feedback.feedback}</p> `,
+        showConfirmButton: false,
+        showCloseButton: true,
+      })
+    } else {
+      Swal.fire({
+        ...similarCustomSA,
+        icon: 'error',
+        title: 'O feedback ainda nao foi enviado!',
+        showConfirmButton: false,
+        timer: 1700
+      })
+    }
+  }
 
   return (
     <Card
@@ -142,7 +262,7 @@ export const DesafioListResults = ({ variaveis, funcoes, ...rest }) => {
                       aria-expanded={open ? 'true' : undefined}
                       aria-haspopup="true"
                       onClick={(e)=>{
-                        setHandleAlteraDesafioInfo(desafio)
+                        setHandleDesafioInfo(desafio)
                         handleClick(e)
                       }}
                     >
@@ -156,11 +276,17 @@ export const DesafioListResults = ({ variaveis, funcoes, ...rest }) => {
                         'aria-labelledby': 'basic-button',
                       }}
                     >
-                      <MenuItem onClick={()=>{handleEnviaFeedbackOpen()}}>
+                      <MenuItem onClick={()=>{ handleEnviaFeedback(handleDesafioInfo) }}>
                         <ListItemIcon>
                           <Send fontSize="small" />
                         </ListItemIcon>
                         <ListItemText>Enviar feedback</ListItemText>
+                      </MenuItem>
+                      <MenuItem onClick={()=>{ handleMostraFeedback(handleDesafioInfo) }}>
+                        <ListItemIcon>
+                          <VisibilityIcon fontSize="small" />
+                        </ListItemIcon>
+                        <ListItemText>Visualizar feedback</ListItemText>
                       </MenuItem>
                     </StyledMenuAnchor>
                   </TableCell>
@@ -181,7 +307,6 @@ export const DesafioListResults = ({ variaveis, funcoes, ...rest }) => {
           background:'#F96400',
         }}
       />
-
     </Card>
   );
 };
