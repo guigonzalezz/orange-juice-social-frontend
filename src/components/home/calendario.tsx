@@ -32,7 +32,7 @@ export const Calendario = (props) => {
       justifyContent: 'center',
       background: '#232323'
    }}>
-     <Typography sx={{ color: '#454B50', fontSize: 24}}>Em construção...</Typography>
+     <Typography sx={{ color: '#454B50', fontSize: 24}}>Em breve...</Typography>
    </Box>
   );
 };

@@ -98,17 +98,7 @@ export const DashboardNavbar = (props) => {
           </Tooltip> */}
 
           <Box sx={{ flexGrow: 1 }} />
-          <Tooltip title="Notifications">
-            <IconButton sx={{ ml: 1 }}>
-              <Badge
-                badgeContent={4}
-                color="primary"
-                variant="dot"
-              >
-                <Notifications fontSize="small" />
-              </Badge>
-            </IconButton>
-          </Tooltip>
+
           <Avatar
             onClick={handleAvatarClick}
             sx={{

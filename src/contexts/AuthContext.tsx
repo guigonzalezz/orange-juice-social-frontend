@@ -63,7 +63,7 @@ export function AuthProvider({ children }) {
         setUser(response.user)
       })
 
-      Router.push('/home');
+
     }
     else if(message) {
       return message
