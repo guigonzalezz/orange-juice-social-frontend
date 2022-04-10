@@ -2,7 +2,7 @@ import Head from 'next/head';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Swal from 'sweetalert2'
-import { Box, Button, Container, TextField, Typography, Snackbar } from '@mui/material';
+import { Box, Button, Container, TextField, Typography, Snackbar, CircularProgress } from '@mui/material';
 import MuiAlert from '@mui/material/Alert';
 
 import { useContext, useState } from 'react';
@@ -10,9 +10,12 @@ import { AuthContext } from '../contexts/AuthContext';
 import axios from 'axios';
 import { GetServerSideProps } from 'next';
 import { parseCookies } from 'nookies';
+import { LoadingButton } from '@mui/lab';
+import Router from 'next/router';
 
 
 const Login = () => {
+  const [carregando, setCarregando] = useState(false)
   const { signIn } = useContext(AuthContext)
   const [popupError, setPopupError] = useState(false)
   const [popupMensagem, setPopupMensagem] = useState("")
@@ -56,12 +59,16 @@ const Login = () => {
           'Necessario digitar a senha')
     }),
     onSubmit: async (values) => {
+      setCarregando(true)
       const possibleMessage = await signIn({
         email: values.email,
         senha: values.password
+      }).then(res => {
       })
       if(possibleMessage != undefined) {
         handleOpenError(possibleMessage)
+      } else {
+        Router.push('/home');
       }
     }
   });
@@ -219,7 +226,9 @@ const Login = () => {
               variant="outlined"
             />
             <Box sx={{ py: 2 }}>
-              <Button
+              <LoadingButton
+                loading={carregando}
+                loadingIndicator={<CircularProgress color="inherit" size={16} />}
                 color="primary"
                 disabled={formik.isSubmitting}
                 fullWidth
@@ -229,7 +238,7 @@ const Login = () => {
                 sx={{background: 'linear-gradient(#FECE00, #F96400)'}}
               >
                 Login
-              </Button>
+              </LoadingButton>
             </Box>
           </form>
           <Box sx={{ mb: 3, cursor: 'pointer'}}>
