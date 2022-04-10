@@ -28,6 +28,7 @@ const Perfil = ({ usuarioLogado, usuarioTerceiro, meuPerfil }) => {
 
   return (
     <DashboardLayout
+      usuarioLogadoEmail={usuarioLogado.perfil.email_empresarial}
       avatarLink={usuarioLogado.avatar_link}
       isAdmin={usuarioLogado.cargo == 'admin'}
     >
@@ -83,7 +84,7 @@ const Perfil = ({ usuarioLogado, usuarioTerceiro, meuPerfil }) => {
         </CardContent>
 
         <CardContent sx={{ textAlign:'center', py:0,background:'#232323',color:'white'}}>
-          <Typography>&quot;{usuarioTerceiro.social.titulo}&quot;</Typography>
+          <Typography>{usuarioTerceiro.social.titulo ? `"${usuarioTerceiro.social.titulo}"` : ""}</Typography>
         </CardContent>
 
 

@@ -32,6 +32,7 @@ const Usuarios = ({ usuario, usuarios, cargos }) => {
 
   return (
     <DashboardLayout
+      usuarioLogadoEmail={usuario.perfil.email_empresarial}
       avatarLink={usuario.avatar_link}
       isAdmin={isAdmin}
     >
