@@ -83,15 +83,6 @@ const items = [
   {
     isAdmin: true,
     component: (<NavItem
-      key='Quiz'
-      icon={<Quiz fontSize="small" />}
-      href='/quiz'
-      title='Quiz'
-    />)
-  },
-  {
-    isAdmin: true,
-    component: (<NavItem
       key='Relatorios'
       icon={<Feed fontSize="small" />}
       href='/relatorios'
