@@ -8,6 +8,7 @@ import { Box, Typography } from '@mui/material';
 
 import React, { useState } from 'react';
 import { Quiz } from '../../components/shared/Quiz';
+import { theme } from '../../styles/theme';
 
 const similarCustomSA = {
   width: 600,
@@ -50,6 +51,8 @@ const Quizzes = ({ usuario, quizzes }) => {
             justifyContent: 'flex-start',
             padding: 2,
             mt: 2,
+            ml: -10,
+            [theme.breakpoints.down(1200)]: { ml: 0 }
           }}
         >
           <Typography
@@ -78,7 +81,9 @@ const Quizzes = ({ usuario, quizzes }) => {
           height: 100,
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'center'
+          justifyContent: 'center',
+          ml: -10,
+          [theme.breakpoints.down(1200)]: { ml: 0 }
         }}>
           <Typography sx={{ color: '#454B50', fontSize: 24}}>Nenhum quiz disponivel no momento...</Typography>
         </Box>

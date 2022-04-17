@@ -9,6 +9,7 @@ import { Box, Container } from '@mui/material';
 import { CargoListResults } from '../../components/tabela/cargo-list-results';
 import { CargoListToolbar } from '../../components/tabela/cargo-list-toolbar';
 import { useState } from 'react';
+import { theme } from '../../styles/theme';
 
 const Cargos = ({ usuario, cargos }) => {
   const [filtroNome, setFiltroNome] = useState('')
@@ -44,7 +45,9 @@ const Cargos = ({ usuario, cargos }) => {
         component="main"
         sx={{
           flexGrow: 1,
-          py: 8
+          py: 8,
+          ml: -10,
+          [theme.breakpoints.down(1200)]: { ml: 0 }
         }}
       >
         <Container maxWidth={false}>

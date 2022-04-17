@@ -9,6 +9,7 @@ import { Box, Typography } from '@mui/material';
 import { DashboardLayout } from '../../components/dashboard-layout';
 import { ArrowDownward, TextSnippet } from '@mui/icons-material';
 import { Report } from '../../components/shared/Report';
+import { theme } from '../../styles/theme';
 
 const relatorios = [
   {
@@ -52,6 +53,8 @@ const Relatorios = (props) => {
             justifyContent: 'flex-start',
             padding: 2,
             mt: 2,
+            ml: -10,
+            [theme.breakpoints.down(1200)]: { ml: 0 }
           }}
         >
           <Typography

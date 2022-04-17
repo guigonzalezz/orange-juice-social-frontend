@@ -9,6 +9,7 @@ import { Box, Container } from '@mui/material';
 import { UsuarioListResults } from '../../components/tabela/usuario-list-results';
 import { UsuarioListToolbar } from '../../components/tabela/usuario-list-toolbar';
 import { useState } from 'react';
+import { theme } from '../../styles/theme';
 
 const Usuarios = ({ usuario, usuarios, cargos }) => {
   const isAdmin = usuario.cargo == 'admin'
@@ -46,7 +47,9 @@ const Usuarios = ({ usuario, usuarios, cargos }) => {
         component="main"
         sx={{
           flexGrow: 1,
-          py: 8
+          py: 8,
+          ml: -10,
+          [theme.breakpoints.down(1200)]: { ml: 0 }
         }}
       >
         <Container maxWidth={false}>

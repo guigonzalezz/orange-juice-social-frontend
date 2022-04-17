@@ -11,6 +11,7 @@ import { Noticias } from '../../components/home/noticias';
 import { Blog } from '../../components/home/blog';
 import { Eventos } from '../../components/home/eventos';
 import { Calendario } from '../../components/home/calendario';
+import { theme } from '../../styles/theme';
 
 
 
@@ -38,6 +39,8 @@ const Home = (props) => {
         sx={{
           flexGrow: 1,
           py: 4,
+          ml: -10,
+          [theme.breakpoints.down(1200)]: { ml: 0 }
         }}
       >
         <Container maxWidth={false}>

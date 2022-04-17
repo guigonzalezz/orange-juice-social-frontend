@@ -9,6 +9,7 @@ import { Box, Container } from '@mui/material';
 import { DesafioListResults } from '../../components/tabela/desafio-list-results';
 import { DesafioListToolbar } from '../../components/tabela/desafio-list-toolbar';
 import { useState } from 'react';
+import { theme } from '../../styles/theme';
 
 const Desafios = ({ usuario, desafios }) => {
   const [filtroNome, setFiltroNome] = useState('')
@@ -43,7 +44,9 @@ const Desafios = ({ usuario, desafios }) => {
         component="main"
         sx={{
           flexGrow: 1,
-          py: 8
+          py: 8,
+          ml: -10,
+          [theme.breakpoints.down(1200)]: { ml: 0 }
         }}
       >
         <Container maxWidth={false} >

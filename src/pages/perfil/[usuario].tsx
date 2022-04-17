@@ -46,6 +46,8 @@ const Perfil = ({ usuarioLogado, usuarioTerceiro, meuPerfil }) => {
           flexDirection: 'column',
           background:'#232323',color:'white',
           pt: 0,
+          ml: -10,
+          [theme.breakpoints.down(1200)]: { ml: 0 }
         }}
       >
         {meuPerfil && <Button onClick={()=>{handleAlteraOpen()}} variant="contained" sx={{ position: 'absolute',right: 0,mt:3, mr:2}}>Editar</Button>}

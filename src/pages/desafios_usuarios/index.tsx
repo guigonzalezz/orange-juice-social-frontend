@@ -8,6 +8,7 @@ import { Box, Typography } from '@mui/material';
 
 import React, { useState } from 'react';
 import { Desafio } from '../../components/shared/Desafio';
+import { theme } from '../../styles/theme';
 
 const similarCustomSA = {
   width: 600,
@@ -49,6 +50,8 @@ const DesafiosUsuarios = ({ usuario, desafios }) => {
             justifyContent: 'flex-start',
             padding: 2,
             mt: 2,
+            ml: -10,
+            [theme.breakpoints.down(1200)]: { ml: 0 }
           }}
         >
           <Typography
@@ -77,7 +80,9 @@ const DesafiosUsuarios = ({ usuario, desafios }) => {
           height: 100,
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'center'
+          justifyContent: 'center',
+          ml: -10,
+          [theme.breakpoints.down(1200)]: { ml: 0 }
         }}>
           <Typography sx={{ color: '#454B50', fontSize: 24}}>Nenhum desafio disponivel no momento...</Typography>
         </Box>
