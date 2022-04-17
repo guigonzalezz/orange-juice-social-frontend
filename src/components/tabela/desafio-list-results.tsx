@@ -16,7 +16,7 @@ import {
   TableRow,
   Typography
 } from '@mui/material';
-import { Send, MoreVert } from '@mui/icons-material';
+import { Send, MoreVert, Preview } from '@mui/icons-material';
 import { StyledMenuAnchor } from '../shared/StyledAnchorMenu'
 import axios from 'axios';
 import Swal from 'sweetalert2'
@@ -159,6 +159,20 @@ export const DesafioListResults = ({ variaveis, funcoes, ...rest }) => {
     }
   }
 
+  const handleMostraDesafioEnviado = (desafio) => {
+    Swal.fire({
+      ...similarCustomSA,
+      title: 'Desafio enviado',
+      icon: 'info',
+      iconColor: '#F96400',
+      html:
+        `<p><strong>Link: </strong><a target="_blank" rel="noopener noreferrer" style="text-decoration:none; color: #F96400; cursor:pointer;" href="${desafio.desafio_url}">${desafio.desafio_url}</a></p> ` +
+        `<p><strong>Anotação: </strong>${desafio.anotacao ? desafio.anotacao : 'Nenhuma anotação foi feita.'}</p> `,
+      showConfirmButton: false,
+      showCloseButton: true,
+    })
+  }
+
   return (
     <Card
       {...rest}
@@ -281,6 +295,12 @@ export const DesafioListResults = ({ variaveis, funcoes, ...rest }) => {
                           <Send fontSize="small" />
                         </ListItemIcon>
                         <ListItemText>Enviar feedback</ListItemText>
+                      </MenuItem>
+                      <MenuItem onClick={()=>{ handleMostraDesafioEnviado(handleDesafioInfo) }}>
+                        <ListItemIcon>
+                          <Preview fontSize="small" />
+                        </ListItemIcon>
+                        <ListItemText>Visualizar desafio</ListItemText>
                       </MenuItem>
                       <MenuItem onClick={()=>{ handleMostraFeedback(handleDesafioInfo) }}>
                         <ListItemIcon>
