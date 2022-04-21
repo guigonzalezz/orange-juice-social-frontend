@@ -193,7 +193,7 @@ const Login = () => {
               <img
                 width={80}
                 height={80}
-                src='/logo_static.svg'
+                src='./logo_cor3.png'
                 alt="logo orange juice"
                 aria-label='logo orange juice'
               />

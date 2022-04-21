@@ -26,11 +26,6 @@ const App = (props) => {
             name="viewport"
             content="initial-scale=1, width=device-width"
           />
-          <link
-            rel="icon"
-            type="image/x-icon"
-            href="../../public/favicon.ico"
-          ></link>
         </Head>
         <LocalizationProvider dateAdapter={AdapterDateFns}>
           <ThemeProvider theme={theme}>

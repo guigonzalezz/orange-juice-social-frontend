@@ -64,6 +64,11 @@ class CustomDocument extends Document {
            href="https://fonts.googleapis.com/css2?family=Anton&family=Poppins:wght@100;300;500;700&family=Roboto:wght@400;500;700&display=swap"
            rel="stylesheet"
           />
+          <link
+            rel="icon"
+            type="image/x-icon"
+            href="./favicon.ico"
+          ></link>
           <meta
            name="theme-color"
            content="#111827"
