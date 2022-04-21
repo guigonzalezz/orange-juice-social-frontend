@@ -6,7 +6,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { useContext, useState } from 'react';
 import { Search, SearchIconWrapper, StyledInputBase } from './shared/SearchBoxMenu';
 import { AuthContext } from '../contexts/AuthContext';
-import { AccountCircle, Logout, Notifications, Person } from '@mui/icons-material';
+import { AccountCircle, Logout, Notifications, Person, School } from '@mui/icons-material';
 import { StyledMenuAnchor } from './shared/StyledAnchorMenu';
 import { useRouter } from 'next/router';
 
@@ -34,6 +34,10 @@ export const DashboardNavbar = (props) => {
 
   const handlePefil = () => {
     router.push(`/perfil/${usuarioLogadoEmail}`)
+  }
+
+  const handleTutorial = () => {
+    router.push(`/tutorial`)
   }
 
   const handleHome = () => {
@@ -132,6 +136,12 @@ export const DashboardNavbar = (props) => {
               <Person fontSize="small" />
             </ListItemIcon>
             <ListItemText>Perfil</ListItemText>
+          </MenuItem>
+          <MenuItem onClick={handleTutorial}>
+            <ListItemIcon>
+              <School fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>Tutorial</ListItemText>
           </MenuItem>
           <MenuItem onClick={logoutUser}>
             <ListItemIcon>
