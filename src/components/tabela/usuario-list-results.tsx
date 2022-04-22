@@ -17,9 +17,24 @@ import {
   TableRow,
   Typography
 } from '@mui/material';
-import { LegendToggle, MoreVert } from '@mui/icons-material';
+import { EventNote, LegendToggle, MoreVert } from '@mui/icons-material';
 import axios from 'axios';
 import { StyledMenuAnchor } from '../shared/StyledAnchorMenu'
+import Swal from 'sweetalert2';
+
+const similarCustomSA = {
+  width: 600,
+  padding: '2em',
+  color: '#fff',
+  background: '#343434',
+  backdrop: `
+    #00000066
+    left top
+    no-repeat
+  `,
+  confirmButtonColor: '#F96400',
+  confirmButtonText: 'Fechar'
+}
 
 export const UsuarioListResults = ({ variaveis, funcoes, ...rest }) => {
   const { usuarios,usuariosTable, filtroNome, idsUsuariosSelecionados } = variaveis
@@ -29,7 +44,8 @@ export const UsuarioListResults = ({ variaveis, funcoes, ...rest }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
-  const [actualValue, setActualValue] = useState(0)
+  const [actualId, setActualId] = useState(0)
+  const [actualEmail, setActualEmail] = useState('')
 
   useEffect(()=>{
     if(filtroNome == '') setUsuariosTable(usuarios)
@@ -80,8 +96,12 @@ export const UsuarioListResults = ({ variaveis, funcoes, ...rest }) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleActualValue = (id) => {
-    setActualValue(id)
+  const handleActualId = (id) => {
+    setActualId(id)
+  }
+
+  const handleActualEmail = (email) => {
+    setActualEmail(email)
   }
 
   const handleClose = () => {
@@ -98,6 +118,44 @@ export const UsuarioListResults = ({ variaveis, funcoes, ...rest }) => {
             })
         }
       })
+  }
+
+  const handleFichaCompleta = async (email:any) => {
+    await axios.get(`${process.env.HEROKU_OJ_API_DEV_URL}/relatorio/usuario_ficha?email_empresarial=${email}`)
+      .then(async res => {
+        Swal.fire({
+          ...similarCustomSA,
+          title: 'Ficha completa!',
+          html: `
+            <p><strong>Nome: </strong>${res.data.nome}</p>
+            <p><strong>CPF: </strong>${res.data.cpf}</p>
+            <p><strong>Email empresarial: </strong>${res.data.email_empresarial}</p>
+            <p><strong>Email pessoal: </strong>${res.data.email_pessoal}</p>
+            <p><strong>Contato: </strong>${res.data.contato}</p>
+            <p><strong>Cargo: </strong>${res.data.cargo}</p>
+            <p><strong>Qtd desafios concluidos: </strong>${res.data.qtd_desafios_completos}</p>
+            <p><strong>Qtd cursos concluidos: </strong>${res.data.qtd_cursos_completos}</p>
+            <p><strong>Qtd trilhas concluidos: </strong>${res.data.qtd_trilhas_completos}</p>
+            <p><strong>Qtd quizzes concluidos: </strong>${res.data.qtd_quizzes_completos}</p>
+            <p><strong>Linkedin: </strong>${res.data.linkedin}</p>
+          `,
+          // text:  'Modal with a custom image.\nOla\,Ola',
+        })
+      })
+
+    //   {
+    //     nome:  "Guilherme Gonzalez",
+    //     cpf: "00704620123",
+    //     email_empresarial: "guilhermego@fcamara.com.br",
+    //     email_pessoal: "guilhermego@fcamara.com.br",
+    //     contato: "18981045128",
+    //     cargo: "Desenvolvedor Fullstack",
+    //     qtd_desafios_completos: 0,
+    //     qtd_cursos_completos: 0,
+    //     qtd_trilhas_completos: 0,
+    //     qtd_quizzes_completos: 0,
+    //     linkedin: "http://www.linkedin.com/in/guilherme-c-gonzalez-342bb4158/"
+    // }
   }
 
   return (
@@ -229,7 +287,8 @@ export const UsuarioListResults = ({ variaveis, funcoes, ...rest }) => {
                       aria-expanded={open ? 'true' : undefined}
                       aria-haspopup="true"
                       onClick={(e)=>{
-                        handleActualValue(usuario.id_usuario)
+                        handleActualId(usuario.id_usuario)
+                        handleActualEmail(usuario.perfil.email_empresarial)
                         handleClick(e)
                       }}
                     >
@@ -243,11 +302,17 @@ export const UsuarioListResults = ({ variaveis, funcoes, ...rest }) => {
                         'aria-labelledby': 'basic-button',
                       }}
                     >
-                      <MenuItem onClick={()=>{handleStatusUsuario(actualValue)}}>
+                      <MenuItem onClick={()=>{handleStatusUsuario(actualId)}}>
                         <ListItemIcon>
                           <LegendToggle fontSize="small" />
                         </ListItemIcon>
-                        <ListItemText>Toggle Status</ListItemText>
+                        <ListItemText>{usuario.ativo_SN == 'S' ? 'Desativar':'Ativar'}</ListItemText>
+                      </MenuItem>
+                      <MenuItem onClick={()=>{handleFichaCompleta(actualEmail)}}>
+                        <ListItemIcon>
+                          <EventNote fontSize="small" />
+                        </ListItemIcon>
+                        <ListItemText>Ficha Completa</ListItemText>
                       </MenuItem>
                     </StyledMenuAnchor>
                   </TableCell>
