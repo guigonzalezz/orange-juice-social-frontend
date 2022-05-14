@@ -7,15 +7,39 @@ import { AuthContext } from '../../contexts/AuthContext';
 import { Box, Typography } from '@mui/material';
 
 import { DashboardLayout } from '../../components/dashboard-layout';
-import { ArrowDownward, TextSnippet } from '@mui/icons-material';
 import { Report } from '../../components/shared/Report';
 import { theme } from '../../styles/theme';
 
 const relatorios = [
   {
     nome: 'Listagem Usuários',
-    descricao: "Este relatório nos mostra tdos os usuários ativos.",
+    descricao: "Este relatório nos mostra todos os usuários ativos.",
     tipo: 'usuarios_ativos'
+  },
+  {
+    nome: 'Ranqueamento Usuários',
+    descricao: "Este relatório nos mostra o ranqueamento de todos os usuários.",
+    tipo: 'ranqueamento_usuarios'
+  },
+  {
+    nome: 'Notas desafios dos Usuários',
+    descricao: "Este relatório nos mostra os desafios e as respectivas notas dos usuários.",
+    tipo: 'notas_desafios_usuarios'
+  },
+  {
+    nome: 'Cursos concluidos e suas quantidades',
+    descricao: "Este relatório nos mostra os cursos e a quantidade concluida.",
+    tipo: 'qtd_conclusao_cursos'
+  },
+  {
+    nome: 'Quizzes concluidos e suas quantidadees',
+    descricao: "Este relatório nos mostra os quizzes e a quantidade concluida.",
+    tipo: 'qtd_conclusao_quizzes'
+  },
+  {
+    nome: 'Desafios concluidos e suas quantidades',
+    descricao: "Este relatório nos mostra os desafios e a quantidade concluida.",
+    tipo: 'qtd_conclusao_desafios'
   },
 ];
 

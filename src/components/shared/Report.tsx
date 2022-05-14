@@ -20,19 +20,19 @@ export const Report = ({nome, descricao, tipo}) => {
       doc = new jsPDF({ unit: "in", lineHeight: lineHeight }).setProperties({ title: tipo })
 
     if(tipo == "usuarios_ativos") {
-      let usuarios = [];
+      let retorno = [];
       await axios.get(`${process.env.HEROKU_OJ_API_DEV_URL}/relatorio/${tipo}`)
       .then(res => {
-        usuarios = res.data
+        retorno = res.data
       })
 
       doc.setFont("Helvetica", "bold").text(
-        "Listagem de usuarios ativos",
+        nome,
         margin,
         margin + oneLineHeight
       );
 
-      const text = usuarios.map(u => u.join(", ")).join("\n")
+      const text = retorno.map(u => u.join(", ")).join("\n")
       const textLines = doc
       .setFont("helvetica")
       .setFontSize(8)
@@ -40,6 +40,124 @@ export const Report = ({nome, descricao, tipo}) => {
 
       doc.text(textLines, margin, margin + 2 * oneLineHeight);
       doc.save("usuarios_ativos.pdf");
+
+    }
+    else if(tipo == "ranqueamento_usuarios"){
+      let retorno = [];
+      await axios.get(`${process.env.HEROKU_OJ_API_DEV_URL}/relatorio/${tipo}`)
+      .then(res => {
+        retorno = res.data
+      })
+
+      doc.setFont("Helvetica", "bold").text(
+        nome,
+        margin,
+        margin + oneLineHeight
+      );
+
+      const text = retorno.map((u,index) => `${index+1}º ${u.nome}(${u.cpf}) - Total: ${u.total}`).join("\n")
+      const textLines = doc
+      .setFont("helvetica")
+      .setFontSize(8)
+      .splitTextToSize(text, maxLineWidth);
+
+      doc.text(textLines, margin, margin + 2 * oneLineHeight);
+      doc.save("ranqueamento_usuarios.pdf");
+
+    }
+    else if(tipo == "notas_desafios_usuarios"){
+      let retorno = [];
+      await axios.get(`${process.env.HEROKU_OJ_API_DEV_URL}/relatorio/${tipo}`)
+      .then(res => {
+        retorno = res.data
+      })
+
+      doc.setFont("Helvetica", "bold").text(
+        nome,
+        margin,
+        margin + oneLineHeight
+      );
+
+      const text = retorno.map(u => `
+        ${u.desafio_nome}\n
+        ${u.usuarios.map(usu => `\t${usu.nome}(${usu.cpf}) - Nota: ${usu.nota}`).join("\n")}
+      `).join("\n")
+      const textLines = doc
+      .setFont("helvetica")
+      .setFontSize(8)
+      .splitTextToSize(text, maxLineWidth);
+
+      doc.text(textLines, margin, margin + 2 * oneLineHeight);
+      doc.save("notas_desafios_usuarios.pdf");
+
+    }
+    else if(tipo == "qtd_conclusao_cursos"){
+      let retorno = [];
+      await axios.get(`${process.env.HEROKU_OJ_API_DEV_URL}/relatorio/${tipo}`)
+      .then(res => {
+        retorno = res.data
+      })
+
+      doc.setFont("Helvetica", "bold").text(
+        nome,
+        margin,
+        margin + oneLineHeight
+      );
+
+      const text = retorno.map((u,index) => `${index+1}º ${u.curso_nome} - Total: ${u.qtd}`).join("\n")
+      const textLines = doc
+      .setFont("helvetica")
+      .setFontSize(8)
+      .splitTextToSize(text, maxLineWidth);
+
+      doc.text(textLines, margin, margin + 2 * oneLineHeight);
+      doc.save("qtd_conclusao_cursos.pdf");
+
+    }
+    else if(tipo == "qtd_conclusao_quizzes"){
+      let retorno = [];
+      await axios.get(`${process.env.HEROKU_OJ_API_DEV_URL}/relatorio/${tipo}`)
+      .then(res => {
+        retorno = res.data
+      })
+
+      doc.setFont("Helvetica", "bold").text(
+        nome,
+        margin,
+        margin + oneLineHeight
+      );
+
+      const text = retorno.map((u,index) => `${index+1}º ${u.quiz_nome} - Total: ${u.qtd}`).join("\n")
+      const textLines = doc
+      .setFont("helvetica")
+      .setFontSize(8)
+      .splitTextToSize(text, maxLineWidth);
+
+      doc.text(textLines, margin, margin + 2 * oneLineHeight);
+      doc.save("qtd_conclusao_quizzes.pdf");
+
+    }
+    else if(tipo == "qtd_conclusao_desafios"){
+      let retorno = [];
+      await axios.get(`${process.env.HEROKU_OJ_API_DEV_URL}/relatorio/${tipo}`)
+      .then(res => {
+        retorno = res.data
+      })
+
+      doc.setFont("Helvetica", "bold").text(
+        nome,
+        margin,
+        margin + oneLineHeight
+      );
+
+      const text = retorno.map((u,index) => `${index+1}º ${u.desafio_nome} - Total: ${u.qtd}`).join("\n")
+      const textLines = doc
+      .setFont("helvetica")
+      .setFontSize(8)
+      .splitTextToSize(text, maxLineWidth);
+
+      doc.text(textLines, margin, margin + 2 * oneLineHeight);
+      doc.save("qtd_conclusao_desafios.pdf");
 
     }
   }
@@ -84,7 +202,8 @@ export const Report = ({nome, descricao, tipo}) => {
         px: 4,
       }}>
         <Typography>{nome}</Typography>
-        <Typography color="#8E8E8E" fontSize={12} >{descricao}</Typography>
+        <Typography color="#8E8E8E"
+fontSize={12} >{descricao}</Typography>
       </Box>
 
       <Box sx={{ height: '100%',
